@@ -2,8 +2,8 @@
 #define ARVORESINTATICA_H_
 
 #include <iostream>
+#include <map>
 #include <string>
-#include <vector>
 
 #include "../includes/NoArvoreSintatica.h"
 
@@ -17,12 +17,17 @@ class ArvoreSintatica
 		virtual
 		~ArvoreSintatica( );
 
+		void
+		insereNo( const std::string, const int, const bool );
+
 	protected:
 
 	private:
 		NoArvoreSintatica*
 		programa;
 
+		NoArvoreSintatica*
+		noCorrente;
 };
 
 #endif /* ARVORESINTATICA_H_ */

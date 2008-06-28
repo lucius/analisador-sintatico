@@ -31,8 +31,8 @@ class NoArvoreSintatica
 		void
 		insereFilho( const std::string, const int, const bool );
 
-		NoArvoreSintatica
-		getFilho( );
+		std::vector<NoArvoreSintatica*>
+		getFilhos( );
 
 	protected:
 

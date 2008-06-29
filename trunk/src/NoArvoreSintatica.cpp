@@ -37,22 +37,6 @@ NoArvoreSintatica::getIsTerminal( )
 }
 
 void
-NoArvoreSintatica::insereFilho( std::string _descricao, int _nivelLexico, bool _isTerminal = false )
-{
-	NoArvoreSintatica*
-	_noInsercao = new NoArvoreSintatica( _descricao, _nivelLexico, _isTerminal );
-
-	this->filhos.push_back( _noInsercao );
-}
-
-std::vector<NoArvoreSintatica*>
-NoArvoreSintatica::getFilhos( )
-{
-	return this->filhos;
-}
-
-
-void
 NoArvoreSintatica::setDescricao( const std::string _descricao )
 {
 	this->descricao = _descricao;
@@ -68,4 +52,25 @@ void
 NoArvoreSintatica::setIsTerminal( const bool _isTerminal )
 {
 	this->isTerminal = _isTerminal;
+}
+
+void
+NoArvoreSintatica::insereFilho( std::string _descricao, int _nivelLexico, bool _isTerminal = true )
+{
+	NoArvoreSintatica*
+	_noInsercao = new NoArvoreSintatica( _descricao, _nivelLexico, _isTerminal );
+
+	this->filhos.push_back( _noInsercao );
+}
+
+void
+NoArvoreSintatica::insereFilho( NoArvoreSintatica* _noInsercao )
+{
+	this->filhos.push_back( _noInsercao );
+}
+
+std::vector<NoArvoreSintatica*>
+NoArvoreSintatica::getFilhos( )
+{
+	return this->filhos;
 }

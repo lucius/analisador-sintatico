@@ -72,7 +72,7 @@ class AnalisadorSintatico
 		parteDeclaracoesSubRotinas( );
 
 		NoArvoreSintatica*
-		declaracaoProcedimentos( );
+		declaracaoProcedimento( );
 
 		NoArvoreSintatica*
 		declaracaoFuncao( );

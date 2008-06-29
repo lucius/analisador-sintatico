@@ -126,8 +126,8 @@ AnalisadorSintatico::bloco( )
 		_bloco->insereFilho( this->parteDeclaracoesVariaveis() );
 	}
 
-	while( (this->iteradorSaidaAnalisadorLexico->second.token == "procedure") ||
-	       (this->iteradorSaidaAnalisadorLexico->second.token == "function") )
+	if( (this->iteradorSaidaAnalisadorLexico->second.token == "procedure") ||
+	    (this->iteradorSaidaAnalisadorLexico->second.token == "function") )
 	{
 		_bloco->insereFilho( this->parteDeclaracoesSubRotinas() );
 	}
@@ -228,16 +228,6 @@ AnalisadorSintatico::parteDefinicoesTipos( )
 				{
 
 				}
-			}
-
-			if( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
-			{
-				_parteDefinicoesTipos->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
-				++this->iteradorSaidaAnalisadorLexico;
-			}
-			else
-			{
-
 			}
 		}
 		else
@@ -355,6 +345,307 @@ AnalisadorSintatico::tipo( )
 
 	return _tipo;
 }
+
+NoArvoreSintatica*
+AnalisadorSintatico::indice( )
+{
+	NoArvoreSintatica*
+	_indice = new NoArvoreSintatica( "<INDICE>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
+	{
+		_indice->insereFilho( this->numero() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "." )
+		{
+			_indice->insereFilho(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == "." )
+			{
+				_indice->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+
+				if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
+				{
+					_indice->insereFilho( this->numero() );
+				}
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _indice;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::parteDeclaracoesVariaveis( )
+{
+	NoArvoreSintatica*
+	_parteDeclaracoesVariaveis = new NoArvoreSintatica( "<PARTE_DECLARACOES_VARIAVEIS>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "var" )
+	{
+		_parteDeclaracoesVariaveis->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+		{
+			_parteDeclaracoesVariaveis->insereFilho( this->declaracaoVariaveis() );
+
+			while( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
+			{
+				_parteDeclaracoesVariaveis->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+
+				if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+				{
+					_parteDeclaracoesVariaveis->insereFilho( this->declaracaoVariaveis() );
+				}
+			}
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _parteDeclaracoesVariaveis;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::declaracaoVariaveis( )
+{
+	NoArvoreSintatica*
+	_declaracaoVariaveis = new NoArvoreSintatica( "<DECLARACAO_VARIAVEIS>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		_declaracaoVariaveis->insereFilho( this->listaIdentificadores() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == ":" )
+		{
+			_declaracaoVariaveis->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			if( (this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR") ||
+				(this->iteradorSaidaAnalisadorLexico->second.token == "array") )
+			{
+				_declaracaoVariaveis->insereFilho( this->tipo() );
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _declaracaoVariaveis;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::listaIdentificadores( )
+{
+	NoArvoreSintatica*
+	_listaIdentificadores = new NoArvoreSintatica( "<LISTA_IDENTIFICADORES>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+		{
+			_listaIdentificadores->insereFilho( this->identificador() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+			{
+				_listaIdentificadores->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+			}
+			else
+			{
+
+			}
+		}
+	}
+	else
+	{
+
+	}
+
+	return _listaIdentificadores;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::parteDeclaracoesSubRotinas( )
+{
+	NoArvoreSintatica*
+	_parteDeclaracoesSubRotinas = new NoArvoreSintatica( "<PARTE_DECLARACOES_SUB_ROTINAS>", this->nivelLexicoAtual, false );
+
+	while( (this->iteradorSaidaAnalisadorLexico->second.token == "procedure") ||
+		   (this->iteradorSaidaAnalisadorLexico->second.token == "function") )
+	{
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "procedure" )
+		{
+			_parteDeclaracoesSubRotinas->insereFilho( this->declaracaoProcedimento() );
+		}
+		else if( this->iteradorSaidaAnalisadorLexico->second.token == "function" )
+		{
+			_parteDeclaracoesSubRotinas->insereFilho( this->declaracaoFuncao() );
+		}
+	}
+
+	return _parteDeclaracoesSubRotinas;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::declaracaoProcedimento( )
+{
+	NoArvoreSintatica*
+	_declaracaoProcedimento = new NoArvoreSintatica( "<DECLARACAO_PROCEDIMENTO>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "procedure" )
+	{
+		_declaracaoProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+		{
+			_declaracaoProcedimento->insereFilho( this->identificador() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
+			{
+				_declaracaoProcedimento->insereFilho( this->parametrosFormais() );
+			}
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
+			{
+				_declaracaoProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+
+				_declaracaoProcedimento->insereFilho( this->bloco() );
+			}
+			else
+			{
+
+			}
+
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _declaracaoProcedimento;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::declaracaoFuncao( )
+{
+	NoArvoreSintatica*
+	_declaracaoFuncao = new NoArvoreSintatica( "<DECLARACAO_FUNCAO>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "function" )
+	{
+		_declaracaoFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+		{
+			_declaracaoFuncao->insereFilho( this->identificador() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
+			{
+				_declaracaoFuncao->insereFilho( this->parametrosFormais() );
+			}
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ":" )
+			{
+				_declaracaoFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+
+				if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+				{
+					_declaracaoFuncao->insereFilho( this->identificador() );
+
+					if( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
+					{
+						_declaracaoFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+						++this->iteradorSaidaAnalisadorLexico;
+
+						_declaracaoFuncao->insereFilho( this->bloco() );
+					}
+					else
+					{
+
+					}
+				}
+				else
+				{
+
+				}
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _declaracaoFuncao;
+}
+
+NoArvoreSintatica*
+AnalisadorSintatico::parametrosFormais( )
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

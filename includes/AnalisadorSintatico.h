@@ -7,7 +7,7 @@
 #include "../../analisador-lexico/includes/AnalisadorLexico.h"
 #include "../../analisador-lexico/includes/StructToken.h"
 
-#include "../includes/ArvoreSintatica.h"
+#include "../includes/NoArvoreSintatica.h"
 
 
 
@@ -23,121 +23,130 @@ class AnalisadorSintatico
 		std::map<int, StructToken>
 		saidaAnalisadorLexico;
 
-		ArvoreSintatica
-		arvore;
+		std::map<int, StructToken>::iterator
+		iteradorSaidaAnalisadorLexico;
+
+		NoArvoreSintatica*
+		raiz;
+
+		unsigned int
+		nivelLexicoAtual;
+
+		void
+		iniciaAnalise( );
 
 		/*
 		 * DECLARACAO DOS NAO TERMINAIS
 		 */
-		void
+		NoArvoreSintatica*
 		programa( );
 
-		void
+		NoArvoreSintatica*
 		bloco( );
 
-		void
+		NoArvoreSintatica*
 		parteDeclaracoesRotulos( );
 
-		void
+		NoArvoreSintatica*
 		parteDefinicoesTipos( );
 
-		void
+		NoArvoreSintatica*
 		definicaoTipo( );
 
-		void
+		NoArvoreSintatica*
 		tipo( );
 
-		void
+		NoArvoreSintatica*
 		indice( );
 
-		void
-		parteDeclaracaoVariaveis( );
+		NoArvoreSintatica*
+		parteDeclaracoesVariaveis( );
 
-		void
+		NoArvoreSintatica*
 		declaracaoVariaveis( );
 
-		void
+		NoArvoreSintatica*
 		listaIdentificadores( );
 
-		void
+		NoArvoreSintatica*
 		parteDeclaracoesSubRotinas( );
 
-		void
+		NoArvoreSintatica*
 		declaracaoProcedimentos( );
 
-		void
+		NoArvoreSintatica*
 		declaracaoFuncao( );
 
-		void
+		NoArvoreSintatica*
 		parametrosFormais( );
 
-		void
+		NoArvoreSintatica*
 		sessaoParametrosFormais( );
 
-		void
+		NoArvoreSintatica*
 		comandoComposto( );
 
-		void
+		NoArvoreSintatica*
 		comando( );
 
-		void
+		NoArvoreSintatica*
 		comandoSemRotulo( );
 
-		void
+		NoArvoreSintatica*
 		atribuicao( );
 
-		void
+		NoArvoreSintatica*
 		chamadaProcedimento( );
 
-		void
+		NoArvoreSintatica*
 		desvios( );
 
-		void
+		NoArvoreSintatica*
 		comandoCondicional( );
 
-		void
+		NoArvoreSintatica*
 		comandoRepetitivo( );
 
-		void
+		NoArvoreSintatica*
 		listaExpressoes( );
 
-		void
+		NoArvoreSintatica*
 		expressao( );
 
-		void
+		NoArvoreSintatica*
 		relacao( );
 
-		void
+		NoArvoreSintatica*
 		expressaoSimples( );
 
-		void
+		NoArvoreSintatica*
 		termo( );
 
-		void
+		NoArvoreSintatica*
 		fator( );
 
-		void
+		NoArvoreSintatica*
 		variavel( );
 
-		void
+		NoArvoreSintatica*
 		chamadaFuncao( );
 
-		void
+		NoArvoreSintatica*
 		numero( );
 
-		void
+		NoArvoreSintatica*
 		digito( );
 
-		void
+		NoArvoreSintatica*
 		identificador( );
 
-		void
+		NoArvoreSintatica*
 		letra( );
 
-		void
+		NoArvoreSintatica*
 		comandoLeitura( );
 
-		void
+		NoArvoreSintatica*
 		comandoEscrita( );
 };
 

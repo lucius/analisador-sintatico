@@ -18,7 +18,6 @@ class NoArvoreSintatica
 		/*
 		 * Metodos Get
 		 */
-
 		const std::string
 		getDescricao( );
 
@@ -28,8 +27,23 @@ class NoArvoreSintatica
 		const bool
 		getIsTerminal( );
 
+		/*
+		 * Metodos Set
+		 */
+		void
+		setDescricao( const std::string );
+
+		void
+		setNivelLexico( const int );
+
+		void
+		setIsTerminal( const bool );
+
 		void
 		insereFilho( const std::string, const int, const bool );
+
+		void
+		insereFilho( NoArvoreSintatica* );
 
 		std::vector<NoArvoreSintatica*>
 		getFilhos( );
@@ -48,18 +62,6 @@ class NoArvoreSintatica
 
 		std::vector<NoArvoreSintatica*>
 		filhos;
-
-		/*
-		 * Metodos Set
-		 */
-		void
-		setDescricao( const std::string );
-
-		void
-		setNivelLexico( const int );
-
-		void
-		setIsTerminal( const bool );
 };
 
 #endif /* NOARVORESINTATICA_H_ */

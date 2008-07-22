@@ -81,7 +81,7 @@ class AnalisadorSintatico
 		parametrosFormais( );
 
 		NoArvoreSintatica*
-		sessaoParametrosFormais( );
+		secaoParametrosFormais( );
 
 		NoArvoreSintatica*
 		comandoComposto( );

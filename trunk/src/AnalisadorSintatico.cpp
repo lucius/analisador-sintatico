@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <regex.h>
 
 #include "../../analisador-lexico/includes/AnalisadorLexico.h"
 #include "../../analisador-lexico/includes/StructToken.h"
@@ -1182,31 +1183,110 @@ AnalisadorSintatico::variavel( )
 NoArvoreSintatica*
 AnalisadorSintatico::chamadaFuncao( )
 {
+	NoArvoreSintatica*
+	_chamadaFuncao = new NoArvoreSintatica( "<CHAMADA_FUNCAO>", this->nivelLexicoAtual, false );
 
+	_chamadaFuncao->insereFilho( this->identificador() );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
+	{
+		_chamadaFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_chamadaFuncao->insereFilho( this->listaExpressoes() );
+	}
+
+	return _chamadaFuncao;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::numero( )
 {
+	NoArvoreSintatica*
+	_numero = new NoArvoreSintatica( "<NUMERO>", this->nivelLexicoAtual, false );
 
+	size_t
+	posicaoCorte;
+
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
+	{
+		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
+		{
+			_numero->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+			++posicaoCorte;
+		}
+		++this->iteradorSaidaAnalisadorLexico;
+	}
+
+	return _numero;
 }
 
 NoArvoreSintatica*
-AnalisadorSintatico::digito( )
+AnalisadorSintatico::digito( std::string _digitoInsercao )
 {
+	NoArvoreSintatica*
+	_digito = new NoArvoreSintatica( "<DIGITO>", this->nivelLexicoAtual, false );
 
+	_digito->insereFilho( _digitoInsercao, this->nivelLexicoAtual, true );
+
+	return _digito;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::identificador( )
 {
+	NoArvoreSintatica*
+	_identificador = new NoArvoreSintatica( "<IDENTIFICADOR>", this->nivelLexicoAtual, false );
 
+	regex_t
+	expressaoRegularDigito;
+
+	regex_t
+	expressaoRegularLetra;
+
+	size_t
+	posicaoCorte = 0;
+
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		if ( !regcomp(&expressaoRegularDigito, "[^0-9]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
+		{
+		}
+		if ( !regcomp(&expressaoRegularLetra, "[^A-Z]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
+		{
+		}
+
+		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
+		{
+			if( !regexec(&expressaoRegularDigito, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+			{
+				_identificador->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+			}
+			else if ( !regexec(&expressaoRegularLetra, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+			{
+				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+			}
+
+			++posicaoCorte;
+		}
+		++this->iteradorSaidaAnalisadorLexico;
+	}
+
+	regfree( &expressaoRegularDigito );
+	regfree( &expressaoRegularLetra );
+
+	return _identificador;
 }
 
 NoArvoreSintatica*
-AnalisadorSintatico::letra( )
+AnalisadorSintatico::letra( std::string _letraInsercao )
 {
+	NoArvoreSintatica*
+	_letra = new NoArvoreSintatica( "<LETRA>", this->nivelLexicoAtual, false );
 
+	_letra->insereFilho( _letraInsercao, this->nivelLexicoAtual, true );
+
+	return _letra;
 }
 
 NoArvoreSintatica*

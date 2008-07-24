@@ -833,6 +833,8 @@ AnalisadorSintatico::comandoComposto( )
 	{
 
 	}
+
+	return _comandoComposto;
 }
 
 NoArvoreSintatica*
@@ -856,7 +858,7 @@ AnalisadorSintatico::comando( )
 		}
 	}
 
-	_comando.insereFilho( this->comandoSemRotulo() );
+	_comando->insereFilho( this->comandoSemRotulo() );
 
 	return _comando;
 }
@@ -887,9 +889,10 @@ AnalisadorSintatico::atribuicao(  )
 
 		if( this->iteradorSaidaAnalisadorLexico->second.token == ":=" )
 		{
-			_atribuicao.insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			_atribuicao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
 
-			_atribuicao.insereFilho( this->expressao() );
+			_atribuicao->insereFilho( this->expressao() );
 		}
 		else
 		{
@@ -900,72 +903,280 @@ AnalisadorSintatico::atribuicao(  )
 	{
 
 	}
+
+	return _atribuicao;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::chamadaProcedimento( )
 {
+	NoArvoreSintatica*
+	_chamadaProcedimento = new NoArvoreSintatica( "<CHAMADA_PROCEDIMENTO>", this->nivelLexicoAtual, false );
 
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		_chamadaProcedimento->insereFilho( this->identificador() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "(")
+		{
+			_chamadaProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			_chamadaProcedimento->insereFilho( this->listaExpressoes() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
+			{
+				_chamadaProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _chamadaProcedimento;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::desvios( )
 {
+	NoArvoreSintatica*
+	_desvios = new NoArvoreSintatica( "<DESVIOS>", this->nivelLexicoAtual, false );
 
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "goto" )
+	{
+		_desvios->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_desvios->insereFilho( this->numero() );
+	}
+	else
+	{
+
+	}
+
+	return _desvios;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::comandoCondicional( )
 {
+	NoArvoreSintatica*
+	_comandoCondicional = new NoArvoreSintatica( "<COMANDO_CONDICIONAL>", this->nivelLexicoAtual, false );
 
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "if" )
+	{
+		_comandoCondicional->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_comandoCondicional->insereFilho( this->expressao() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "then" )
+		{
+			_comandoCondicional->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			_comandoCondicional->insereFilho( this->comandoSemRotulo() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == "else" )
+			{
+				_comandoCondicional->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+
+				_comandoCondicional->insereFilho( this->comandoSemRotulo() );
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _comandoCondicional;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::comandoRepetitivo( )
 {
+	NoArvoreSintatica*
+	_comandoRepetitivo = new NoArvoreSintatica( "<COMANDO_REPETITIVO>", this->nivelLexicoAtual, false );
 
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "while" )
+	{
+		_comandoRepetitivo->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_comandoRepetitivo->insereFilho( this->expressao() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "do" )
+		{
+			_comandoRepetitivo->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			_comandoRepetitivo->insereFilho( comandoSemRotulo() );
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+	return _comandoRepetitivo;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::listaExpressoes( )
 {
+	NoArvoreSintatica*
+	_listaExpressoes = new NoArvoreSintatica( "<LISTA_EXPRESSOES>", this->nivelLexicoAtual, false );
 
+	_listaExpressoes->insereFilho( this->expressao() );
+	while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+	{
+		_listaExpressoes->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_listaExpressoes->insereFilho( this->expressao() );
+	}
+
+	return _listaExpressoes;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::expressao( )
 {
+	NoArvoreSintatica*
+	_expressao = new NoArvoreSintatica( "<EXPRESSAO>", this->nivelLexicoAtual, false );
 
+	_expressao->insereFilho( this->expressaoSimples() );
+
+	if( (this->iteradorSaidaAnalisadorLexico->second.token == "=" ) ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "<>") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "<" ) ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "<=") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == ">=") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == ">" ) )
+	{
+		_expressao->insereFilho( this->relacao() );
+		_expressao->insereFilho( this->expressaoSimples() );
+	}
+
+	return _expressao;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::relacao( )
 {
+	NoArvoreSintatica*
+	_relacao = new NoArvoreSintatica( "<RELACAO>", this->nivelLexicoAtual, false );
 
+	if( (this->iteradorSaidaAnalisadorLexico->second.token == "=" ) ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "<>") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "<" ) ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "<=") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == ">=") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == ">" ) )
+	{
+		_relacao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+	}
+
+	return _relacao;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::expressaoSimples( )
 {
+	NoArvoreSintatica*
+	_expressaoSimples = new NoArvoreSintatica( "<EXPRESSAO_SIMPLES>", this->nivelLexicoAtual, false );
 
+	if( (this->iteradorSaidaAnalisadorLexico->second.token == "+") ||
+		(this->iteradorSaidaAnalisadorLexico->second.token == "-") )
+	{
+		_expressaoSimples->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+	}
+
+	_expressaoSimples->insereFilho( this->termo() );
+
+	while( (this->iteradorSaidaAnalisadorLexico->second.token == "+") ||
+		   (this->iteradorSaidaAnalisadorLexico->second.token == "-") ||
+		   (this->iteradorSaidaAnalisadorLexico->second.token == "or") )
+	{
+		_expressaoSimples->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_expressaoSimples->insereFilho( this->termo() );
+	}
+
+	return _expressaoSimples;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::termo( )
 {
+	NoArvoreSintatica*
+	_termo = new NoArvoreSintatica( "<TERMO>", this->nivelLexicoAtual, false );
 
+	_termo->insereFilho( this->fator() );
+
+	while( (this->iteradorSaidaAnalisadorLexico->second.token == "*")   ||
+		   (this->iteradorSaidaAnalisadorLexico->second.token == "div") ||
+		   (this->iteradorSaidaAnalisadorLexico->second.token == "and") )
+	{
+		_termo->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		_termo->insereFilho( this->fator() );
+	}
+
+	return _termo;
 }
+
+/*
+ * FALTA ESTE
+ */
 
 NoArvoreSintatica*
 AnalisadorSintatico::fator( )
 {
+	NoArvoreSintatica*
+	_fator = new NoArvoreSintatica( "<FATOR>", this->nivelLexicoAtual, false );
 
+	return _fator;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::variavel( )
 {
+	NoArvoreSintatica*
+	_variavel = new NoArvoreSintatica( "<VARIAVEL>", this->nivelLexicoAtual, false );
 
+	_variavel->insereFilho( this->identificador() );
+
+	return _variavel;
 }
 
 NoArvoreSintatica*

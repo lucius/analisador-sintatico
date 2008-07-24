@@ -135,13 +135,13 @@ class AnalisadorSintatico
 		numero( );
 
 		NoArvoreSintatica*
-		digito( );
+		digito( std::string );
 
 		NoArvoreSintatica*
 		identificador( );
 
 		NoArvoreSintatica*
-		letra( );
+		letra( std::string );
 
 		NoArvoreSintatica*
 		comandoLeitura( );

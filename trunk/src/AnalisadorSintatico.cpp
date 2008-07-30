@@ -73,32 +73,32 @@ AnalisadorSintatico::programa( )
 						}
 						else
 						{
-							LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '.' apos 'end'");
+							LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '.' apos 'end'" );
 						}
 					}
 					else
 					{
-						LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos ')'");
+						LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos ')'" );
 					}
 				}
 				else
 				{
-					LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')'");
+					LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')'" );
 				}
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '(' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '(' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 			}
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'program'");
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'program'" );
 		}
 	}
 	else
 	{
-		LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: 'program'");
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: 'program'" );
 	}
 
 	return _programa;
@@ -127,7 +127,7 @@ AnalisadorSintatico::bloco( )
 	}
 	else
 	{
-		LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: 'begin' apos ';'");
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: 'begin' apos ';'" );
 	}
 
 	return _bloco;
@@ -159,7 +159,7 @@ AnalisadorSintatico::parteDeclaracoesRotulos( )
 				}
 				else
 				{
-					LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos ','");
+					LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos ','" );
 				}
 			}
 
@@ -170,12 +170,12 @@ AnalisadorSintatico::parteDeclaracoesRotulos( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';'");
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';'" );
 			}
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos 'label'");
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos 'label'" );
 		}
 	}
 	else
@@ -197,28 +197,23 @@ AnalisadorSintatico::parteDefinicoesTipos( )
 		_parteDefinicoesTipos->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
 
-		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+		if( this->iteradorSaidaAnalisadorLexico->second.classificacao != "IDENTIFICADOR" )
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'type'" );
+		}
+		while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 		{
 			_parteDefinicoesTipos->insereFilho( this->definicaoTipo() );
 
-			while( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
 			{
-				_parteDefinicoesTipos->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
-				++this->iteradorSaidaAnalisadorLexico;
-
-				if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
-				{
-					_parteDefinicoesTipos->insereFilho( this->definicaoTipo() );
-				}
-				else
-				{
-					LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos ';'");
-				}
+				 _parteDefinicoesTipos->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				 ++this->iteradorSaidaAnalisadorLexico;
 			}
-		}
-		else
-		{
-			LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'type'");
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
+			}
 		}
 	}
 	else
@@ -251,13 +246,12 @@ AnalisadorSintatico::definicaoTipo()
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador ou 'array' apos '='");
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador ou 'array' apos '='" );
 			}
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '=' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token);
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '=' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 		}
 	}
 	else
@@ -315,17 +309,17 @@ AnalisadorSintatico::tipo( )
 					}
 					else
 					{
-						LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador ou 'array' apos 'of'");
+						LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador ou 'array' apos 'of'" );
 					}
 				}
 				else
 				{
-					LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: 'of' apos ']'");
+					LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: 'of' apos ']'" );
 				}
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro(this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ']' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token);
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ']' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 			}
 		}
 		else
@@ -361,20 +355,24 @@ AnalisadorSintatico::indice( )
 				{
 					_indice->insereFilho( this->numero() );
 				}
+				else
+				{
+					LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos '..'" );
+				}
 			}
 			else
 			{
-
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '.' apos '.'" );
 			}
 		}
 		else
 		{
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '..' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 		}
 	}
 	else
 	{
-
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: indice" );
 	}
 
 	return _indice;
@@ -391,29 +389,28 @@ AnalisadorSintatico::parteDeclaracoesVariaveis( )
 		_parteDeclaracoesVariaveis->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
 
-		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+		if( this->iteradorSaidaAnalisadorLexico->second.classificacao != "IDENTIFICADOR" )
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
+		}
+		while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 		{
 			_parteDeclaracoesVariaveis->insereFilho( this->declaracaoVariaveis() );
 
-			while( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
 			{
 				_parteDeclaracoesVariaveis->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 				++this->iteradorSaidaAnalisadorLexico;
-
-				if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
-				{
-					_parteDeclaracoesVariaveis->insereFilho( this->declaracaoVariaveis() );
-				}
 			}
-		}
-		else
-		{
-
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
+			}
 		}
 	}
 	else
 	{
-
+		return NULL;
 	}
 
 	return _parteDeclaracoesVariaveis;
@@ -441,17 +438,17 @@ AnalisadorSintatico::declaracaoVariaveis( )
 			}
 			else
 			{
-
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: variavel(eis) com tipo indefinido" );
 			}
 		}
 		else
 		{
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ':' apos variavel(eis)" );
 		}
 	}
 	else
 	{
-
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
 	}
 
 	return _declaracaoVariaveis;
@@ -463,26 +460,20 @@ AnalisadorSintatico::listaIdentificadores( )
 	NoArvoreSintatica*
 	_listaIdentificadores = new NoArvoreSintatica( "<LISTA_IDENTIFICADORES>", this->nivelLexicoAtual, false );
 
-	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao != "IDENTIFICADOR" )
 	{
-		while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
-		{
-			_listaIdentificadores->insereFilho( this->identificador() );
-
-			if( this->iteradorSaidaAnalisadorLexico->second.token == "," )
-			{
-				_listaIdentificadores->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
-				++this->iteradorSaidaAnalisadorLexico;
-			}
-			else
-			{
-
-			}
-		}
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
 	}
-	else
-	{
 
+	while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		_listaIdentificadores->insereFilho( this->identificador() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+		{
+			_listaIdentificadores->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+		}
 	}
 
 	return _listaIdentificadores;
@@ -493,6 +484,12 @@ AnalisadorSintatico::parteDeclaracoesSubRotinas( )
 {
 	NoArvoreSintatica*
 	_parteDeclaracoesSubRotinas = new NoArvoreSintatica( "<PARTE_DECLARACOES_SUB_ROTINAS>", this->nivelLexicoAtual, false );
+
+	if( (this->iteradorSaidaAnalisadorLexico->second.token != "procedure") &&
+		(this->iteradorSaidaAnalisadorLexico->second.token != "function") )
+	{
+		return NULL;
+	}
 
 	while( (this->iteradorSaidaAnalisadorLexico->second.token == "procedure") ||
 		   (this->iteradorSaidaAnalisadorLexico->second.token == "function") )
@@ -539,18 +536,17 @@ AnalisadorSintatico::declaracaoProcedimento( )
 			}
 			else
 			{
-
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';'" );
 			}
-
 		}
 		else
 		{
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'procedure'" );
 		}
 	}
 	else
 	{
-
+		return NULL;
 	}
 
 	return _declaracaoProcedimento;
@@ -594,27 +590,27 @@ AnalisadorSintatico::declaracaoFuncao( )
 					}
 					else
 					{
-
+						LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos" + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 					}
 				}
 				else
 				{
-
+					LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos ':'" );
 				}
 			}
 			else
 			{
-
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ':' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 			}
 		}
 		else
 		{
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'function'" );
 		}
 	}
 	else
 	{
-
+		return NULL;
 	}
 
 	return _declaracaoFuncao;
@@ -638,6 +634,10 @@ AnalisadorSintatico::parametrosFormais( )
 		{
 			_parametrosFormais->insereFilho( this->secaoParametrosFormais() );
 		}
+		else
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: parametro apos '('" );
+		}
 
 		while( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
 		{
@@ -653,7 +653,7 @@ AnalisadorSintatico::parametrosFormais( )
 			}
 			else
 			{
-
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: parametro apos ';'" );
 			}
 		}
 
@@ -664,12 +664,12 @@ AnalisadorSintatico::parametrosFormais( )
 		}
 		else
 		{
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 		}
 	}
 	else
 	{
-
+		return NULL;
 	}
 
 	return _parametrosFormais;
@@ -697,12 +697,12 @@ AnalisadorSintatico::secaoParametrosFormais( )
 			}
 			else
 			{
-
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos ':'" );
 			}
 		}
 		else
 		{
-
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " + (this->iteradorSaidaAnalisadorLexico-1)->second.token );
 		}
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.token == "var" )

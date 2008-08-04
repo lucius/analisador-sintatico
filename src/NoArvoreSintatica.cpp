@@ -66,10 +66,13 @@ NoArvoreSintatica::insereFilho( std::string _descricao, int _nivelLexico, bool _
 void
 NoArvoreSintatica::insereFilho( NoArvoreSintatica* _noInsercao )
 {
-	this->filhos.push_back( _noInsercao );
+	if( _noInsercao != NULL )
+	{
+		this->filhos.push_back( _noInsercao );
+	}
 }
 
-std::vector<NoArvoreSintatica*>
+std::vector<NoArvoreSintatica*>&
 NoArvoreSintatica::getFilhos( )
 {
 	return this->filhos;

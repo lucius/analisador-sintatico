@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include <map>
+#include <stack>
 
 #include "../../analisador-lexico/includes/AnalisadorLexico.h"
 #include "../../analisador-lexico/includes/StructToken.h"
 
 #include "../includes/NoArvoreSintatica.h"
+#include "../includes/TabelaHash.h"
 
 
 
@@ -29,11 +31,23 @@ class AnalisadorSintatico
 		NoArvoreSintatica*
 		raiz;
 
+		TabelaHash
+		hash;
+
 		unsigned int
 		nivelLexicoAtual;
 
+		unsigned int
+		deslocamentoAtual;
+
+		std::stack<NoArvoreSintatica*>
+		pilhaDeslocamento;
+
 		void
 		iniciaAnalise( );
+
+		void
+		imprimeArvore( NoArvoreSintatica*, unsigned short int );
 
 		/*
 		 * DECLARACAO DOS NAO TERMINAIS

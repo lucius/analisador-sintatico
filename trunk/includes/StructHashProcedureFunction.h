@@ -1,0 +1,29 @@
+#ifndef STRUCTHASHPROCEDUREFUNCTION_H_
+#define STRUCTHASHPROCEDUREFUNCTION_H_
+
+typedef struct StructHashProcedureFunction
+{
+	std::string
+	identificador;
+
+	std::string
+	categoria;
+
+	unsigned short int
+	nivelLexico;
+
+	std::string
+	tipo;
+
+	unsigned short int
+	deslocamento;
+
+	std::string
+	retorno;
+
+	unsigned int
+	quantidadeParametros;
+};
+
+
+#endif /* STRUCTHASHPROCEDUREFUNCTION_H_ */

@@ -16,6 +16,7 @@ AnalisadorSintatico::AnalisadorSintatico( std::map<int, StructToken> _saidaAnali
 	this->nivelLexicoAtual = 0;
 
 	this->iniciaAnalise( );
+	this->imprimeArvore( this->raiz, 0 );
 }
 
 AnalisadorSintatico::~AnalisadorSintatico( )
@@ -27,6 +28,34 @@ void
 AnalisadorSintatico::iniciaAnalise( )
 {
 	this->raiz = this->programa( );
+}
+
+void
+AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned short int _tabs )
+{
+	unsigned short int
+	_countTabs;
+
+	std::vector<NoArvoreSintatica*>
+	_filhos = _noImpressao->getFilhos();
+
+	std::vector<NoArvoreSintatica*>::iterator
+	_iteradorFilhos;
+
+	for( _countTabs = 0; _countTabs < _tabs; _countTabs++ )
+	{
+			std::cout << "	|";
+	}
+
+	std::cout << "\\_" << _noImpressao->getDescricao( ) << std::endl;
+
+	if( _filhos.size() )
+	{
+		for( _iteradorFilhos = _filhos.begin(); _iteradorFilhos != _filhos.end(); ++_iteradorFilhos )
+		{
+			this->imprimeArvore( *_iteradorFilhos, _tabs+1 );
+		}
+	}
 }
 
 NoArvoreSintatica*
@@ -114,7 +143,7 @@ AnalisadorSintatico::bloco( )
 	 * PARTES NÃO OBRIGATORIAS
 	 */
 	_bloco->insereFilho( this->parteDeclaracoesRotulos() );
-	_bloco->insereFilho( this->parteDefinicoesTipos() );
+//	_bloco->insereFilho( this->parteDefinicoesTipos() );
 	_bloco->insereFilho( this->parteDeclaracoesVariaveis() );
 	_bloco->insereFilho( this->parteDeclaracoesSubRotinas() );
 
@@ -518,6 +547,8 @@ AnalisadorSintatico::declaracaoProcedimento( )
 		_declaracaoProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
 
+		++this->nivelLexicoAtual;
+
 		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 		{
 			_declaracaoProcedimento->insereFilho( this->identificador() );
@@ -533,6 +564,8 @@ AnalisadorSintatico::declaracaoProcedimento( )
 				++this->iteradorSaidaAnalisadorLexico;
 
 				_declaracaoProcedimento->insereFilho( this->bloco() );
+
+				--this->nivelLexicoAtual;
 			}
 			else
 			{
@@ -563,6 +596,8 @@ AnalisadorSintatico::declaracaoFuncao( )
 		_declaracaoFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
 
+		++this->nivelLexicoAtual;
+
 		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 		{
 			_declaracaoFuncao->insereFilho( this->identificador() );
@@ -587,6 +622,8 @@ AnalisadorSintatico::declaracaoFuncao( )
 						++this->iteradorSaidaAnalisadorLexico;
 
 						_declaracaoFuncao->insereFilho( this->bloco() );
+
+						--this->nivelLexicoAtual;
 					}
 					else
 					{
@@ -855,15 +892,31 @@ AnalisadorSintatico::comando( )
 }
 
 
-/*
- * FALTA ESTE
- */
-
 NoArvoreSintatica*
 AnalisadorSintatico::comandoSemRotulo( )
 {
 	NoArvoreSintatica*
 	_comandoSemRotulo = new NoArvoreSintatica( "<COMANDO_SEM_ROTULO>", this->nivelLexicoAtual, false );
+
+
+	//this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "variavel";
+
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "while" )
+	{
+		this->comandoRepetitivo( );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.token == "if" )
+	{
+		this->comandoCondicional( );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.token == "begin" )
+	{
+		this->comandoComposto( );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.token == "goto" )
+	{
+		this->desvios( );
+	}
 
 	return _comandoSemRotulo;
 }
@@ -1059,12 +1112,7 @@ AnalisadorSintatico::expressao( )
 
 	_expressao->insereFilho( this->expressaoSimples() );
 
-	if( (this->iteradorSaidaAnalisadorLexico->second.token == "=" ) ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == "<>") ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == "<" ) ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == "<=") ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == ">=") ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == ">" ) )
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "OPERADOR_RELACIONAL" )
 	{
 		_expressao->insereFilho( this->relacao() );
 		_expressao->insereFilho( this->expressaoSimples() );
@@ -1079,12 +1127,7 @@ AnalisadorSintatico::relacao( )
 	NoArvoreSintatica*
 	_relacao = new NoArvoreSintatica( "<RELACAO>", this->nivelLexicoAtual, false );
 
-	if( (this->iteradorSaidaAnalisadorLexico->second.token == "=" ) ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == "<>") ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == "<" ) ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == "<=") ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == ">=") ||
-		(this->iteradorSaidaAnalisadorLexico->second.token == ">" ) )
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "OPERADOR_RELACIONAL" )
 	{
 		_relacao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
@@ -1142,15 +1185,51 @@ AnalisadorSintatico::termo( )
 	return _termo;
 }
 
-/*
- * FALTA ESTE
- */
-
 NoArvoreSintatica*
 AnalisadorSintatico::fator( )
 {
 	NoArvoreSintatica*
 	_fator = new NoArvoreSintatica( "<FATOR>", this->nivelLexicoAtual, false );
+
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "not")
+	{
+		_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		this->fator( );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
+	{
+		_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		this->expressao( );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
+		{
+			_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+		}
+		else
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')'" );
+		}
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
+	{
+		this->numero( );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		if( this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "variavel" )
+		{
+			this->variavel( );
+		}
+		else if( this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "procedimento|funcao" )
+		{
+			this->chamadaFuncao( );
+		}
+	}
 
 	return _fator;
 }
@@ -1244,11 +1323,15 @@ AnalisadorSintatico::identificador( )
 
 		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
 		{
-			if( !regexec(&expressaoRegularDigito, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+			if( regexec(&expressaoRegularDigito, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
 			{
 				_identificador->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
 			}
-			else if ( !regexec(&expressaoRegularLetra, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+			else if ( regexec(&expressaoRegularLetra, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+			{
+				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+			}
+			else
 			{
 				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
 			}
@@ -1278,105 +1361,73 @@ AnalisadorSintatico::letra( std::string _letraInsercao )
 NoArvoreSintatica*
 AnalisadorSintatico::comandoLeitura( )
 {
+	NoArvoreSintatica*
+	_comandoLeitura = new NoArvoreSintatica( "<COMANDO_LEITURA>", this->nivelLexicoAtual, false );
 
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "read" )
+	{
+		_comandoLeitura->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
+		{
+			_comandoLeitura->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			_comandoLeitura->insereFilho( this->listaIdentificadores() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
+			{
+				_comandoLeitura->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+			}
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')'" );
+			}
+		}
+		else
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '('" );
+		}
+	}
+
+	return _comandoLeitura;
 }
 
 NoArvoreSintatica*
 AnalisadorSintatico::comandoEscrita( )
 {
+	NoArvoreSintatica*
+	_comandoEscrita = new NoArvoreSintatica( "<COMANDO_ESCRITA>", this->nivelLexicoAtual, false );
 
+	if( this->iteradorSaidaAnalisadorLexico->second.token == "write" )
+	{
+		_comandoEscrita->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+		++this->iteradorSaidaAnalisadorLexico;
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
+		{
+			_comandoEscrita->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+
+			_comandoEscrita->insereFilho( this->expressao() );
+
+			if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
+			{
+				_comandoEscrita->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+			}
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')'" );
+			}
+		}
+		else
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '('" );
+		}
+	}
+
+	return _comandoEscrita;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

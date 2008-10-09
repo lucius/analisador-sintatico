@@ -8,6 +8,6 @@
 #include "../includes/FuncaoHash.h"
 #include "../includes/ConteudoHash.h"
 
-typedef __gnu_cxx::hash_map< std::string, ConteudoHash, FuncaoHash<std::string> > TabelaHash;
+typedef __gnu_cxx::hash_map< std::string, ConteudoHash*, FuncaoHash<std::string> > TabelaHash;
 
 #endif /* TABELAHASH_H_ */

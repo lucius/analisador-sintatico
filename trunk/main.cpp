@@ -1,70 +1,60 @@
 #include <map>
 
-#include "../analisador-lexico/includes/StructToken.h"
+#include "./analisador-lexico/includes/StructToken.h"
+#include "./analisador-lexico/includes/AnalisadorLexico.h"
+#include "./analisador-lexico/includes/ErrosExecucao.h"
+#include "./analisador-lexico/includes/LogErros.h"
 
-#include "./includes/LogErros.h"
 #include "./includes/AnalisadorSintatico.h"
 
 
-
-std::map<int, StructToken>
-saidaAnalisadorLexico;
-
-void
-montaSaida( char* _token, char* _identificador )
-{
-	static unsigned short int
-	i = 0;
-
-	StructToken
-	_tmp;
-
-	_tmp.token = _token;
-	_tmp.classificacao = _identificador;
-	saidaAnalisadorLexico[i++] = _tmp;
-
-}
-
 int
-main( )
+main(int argc, char* argv[])
 {
+	/*
+	 * Instancia o Analisador Lexico
+	 */
+	AnalisadorLexico*
+	lexico;
+
 	AnalisadorSintatico*
-	teste;
+	sintatico;
 
-//	std::map<int, StructToken>
-//	saidaAnalisadorLexico;
-//
-//	StructToken
-//	_tmp;
-//
+	try
+	{
+		/*
+		 * Verifica se foi especificado o nome do arquivo-fonte
+		 */
+		if ( argv[1] == NULL ) throw ( new ErrosExecucao("Voce Precisa Definir qual arquivo sera compilado") );
+		/*
+		 * Verifica se foi especificado o arquivo no qual o log do Analisador Lexico será salvo
+		 */
+		else if ( argv[2] )
+		{
+			lexico = new AnalisadorLexico( argv[1], argv[2] );
+		}
+		/*
+		 * Se nao foi especificado um nome para o log, o resultado será exibido na saida padrao do sistema
+		 */
+		else
+		{
+			lexico = new AnalisadorLexico( argv[1] );
+		}
 
-	montaSaida( "program", "PALAVRA_CHAVE"      );
-	montaSaida( "gcd",     "IDENTIFICADOR"      );
-	montaSaida( "(",       "SIMBOLOS_ESPECIAIS" );
-	montaSaida( "input",   "IDENTIFICADOR"      );
-	montaSaida( ",",       "PONTUACAO"          );
-	montaSaida( "output",  "IDENTIFICADOR"      );
-	montaSaida( ")",       "SIMBOLOS_ESPECIAIS" );
-	montaSaida( ";",       "PONTUACAO"          );
-	montaSaida( "var",     "PALAVRA_CHAVE"      );
-	montaSaida( "a", "IDENTIFICADOR" );
-	montaSaida( ",",       "PONTUACAO"          );
-	montaSaida( "bd3", "IDENTIFICADOR" );
-	montaSaida( ":", "PONTUACAO" );
-	montaSaida( "integer", "IDENTIFICADOR" );
-	montaSaida( ";", "PONTUACAO" );
-	montaSaida( "begin", "PALAVRA_CHAVE" );
-/*	montaSaida( "while", "PALAVRA_CHAVE" );
-	montaSaida( "i", "IDENTIFICADOR" );
-	montaSaida( "<>", "PALAVRA_CHAVE" );
-	montaSaida( "j", "IDENTIFICADOR" );
-	montaSaida( "do", "PALAVRA_CHAVE" );*/
-	montaSaida( "end", "PALAVRA_CHAVE" );
-	montaSaida( ".", "PONTUACAO" );
+		sintatico = new AnalisadorSintatico( lexico->getMapAnalisadorLexico() );
+	}
+	/*
+	 * Se ocorrer algum problema durante a execucao do Analisador Lexico, o erro sera exibido
+	 */
+	catch ( ErrosExecucao* erro )
+	{
+		std::cout << erro->getErro( );
+	}
 
-	teste = new AnalisadorSintatico( saidaAnalisadorLexico );
+	/*
+	 * Exibe o log de Erros do Analisador
+	 */
+	LogErros::getInstancia( ).getLog( );
 
-	LogErros::getInstancia().getLog();
-	return 0;
+	return (EXIT_SUCCESS);
 }
-

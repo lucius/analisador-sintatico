@@ -496,6 +496,8 @@ AnalisadorSintatico::listaIdentificadores( )
 
 	while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
+		//this->hash[this->iteradorSaidaAnalisadorLexico->second.token] = new ConteudoHash(this->iteradorSaidaAnalisadorLexico->second.token, "lol", 0, "integer", 0);
+
 		_listaIdentificadores->insereFilho( this->identificador() );
 
 		if( this->iteradorSaidaAnalisadorLexico->second.token == "," )
@@ -676,7 +678,7 @@ AnalisadorSintatico::parametrosFormais( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: parametro apos '('" );
 		}
 
-		while( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
+		while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
 		{
 			_parametrosFormais->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 			++this->iteradorSaidaAnalisadorLexico;
@@ -899,23 +901,23 @@ AnalisadorSintatico::comandoSemRotulo( )
 	_comandoSemRotulo = new NoArvoreSintatica( "<COMANDO_SEM_ROTULO>", this->nivelLexicoAtual, false );
 
 
-	//this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "variavel";
+//	this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "variavel";
 
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "while" )
 	{
-		this->comandoRepetitivo( );
+		_comandoSemRotulo->insereFilho( this->comandoRepetitivo() );
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.token == "if" )
 	{
-		this->comandoCondicional( );
+		_comandoSemRotulo->insereFilho( this->comandoCondicional() );
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.token == "begin" )
 	{
-		this->comandoComposto( );
+		_comandoSemRotulo->insereFilho( this->comandoComposto() );
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.token == "goto" )
 	{
-		this->desvios( );
+		_comandoSemRotulo->insereFilho( this->desvios() );
 	}
 
 	return _comandoSemRotulo;
@@ -1017,6 +1019,7 @@ AnalisadorSintatico::comandoCondicional( )
 {
 	NoArvoreSintatica*
 	_comandoCondicional = new NoArvoreSintatica( "<COMANDO_CONDICIONAL>", this->nivelLexicoAtual, false );
+
 
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "if" )
 	{
@@ -1191,6 +1194,9 @@ AnalisadorSintatico::fator( )
 	NoArvoreSintatica*
 	_fator = new NoArvoreSintatica( "<FATOR>", this->nivelLexicoAtual, false );
 
+	std::string
+	_classificacao;
+
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "not")
 	{
 		_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
@@ -1221,16 +1227,16 @@ AnalisadorSintatico::fator( )
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
-		if( this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "variavel" )
-		{
-			this->variavel( );
-		}
-		else if( this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "procedimento|funcao" )
-		{
-			this->chamadaFuncao( );
-		}
+//		_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
+//		if( _classificacao == "variavel" )
+//		{
+//			_fator->insereFilho( this->variavel( ) );
+//		}
+//		else if( _classificacao == "procedimento|funcao" )
+//		{
+//			std::cout << "caraiodaporra";
+//		}
 	}
-
 	return _fator;
 }
 

@@ -56,15 +56,15 @@ ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, 
 std::string
 ConteudoHash::getConteudo()
 {
-	if( this->variavel == NULL )
+	if( this->variavel != NULL )
 	{
 		return "variavel";
 	}
-	else if( this->procedureFunction == NULL )
+	else if( this->procedureFunction != NULL )
 	{
 		return "procedimento|funcao";
 	}
-	else if( this->parametrosFormais == NULL )
+	else if( this->parametrosFormais != NULL )
 	{
 		return "parametrosFormais";
 	}

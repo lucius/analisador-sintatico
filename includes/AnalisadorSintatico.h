@@ -6,6 +6,7 @@
 #include <stack>
 
 #include "../../analisador-lexico/includes/AnalisadorLexico.h"
+#include "../../analisador-lexico/includes/ErrosExecucao.h"
 #include "../../analisador-lexico/includes/StructToken.h"
 
 #include "../includes/NoArvoreSintatica.h"

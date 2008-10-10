@@ -1,6 +1,8 @@
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <regex.h>
+#include <sstream>
 
 #include "../../analisador-lexico/includes/AnalisadorLexico.h"
 #include "../../analisador-lexico/includes/LogErros.h"
@@ -36,19 +38,33 @@ AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned sh
 	unsigned short int
 	_countTabs;
 
+	std::ofstream
+	arquivoLog;
+
+	std::string
+	bufferString;
+
+	std::stringstream
+	buffer;
+
 	std::vector<NoArvoreSintatica*>
 	_filhos = _noImpressao->getFilhos();
 
 	std::vector<NoArvoreSintatica*>::iterator
 	_iteradorFilhos;
 
+	arquivoLog.open( "../data/at", std::ifstream::app );
+		if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser criado!! Sucesso;;") );
+
 	for( _countTabs = 0; _countTabs < _tabs; _countTabs++ )
 	{
-			std::cout << "	|";
+			buffer << "	|";
 	}
 
-	std::cout << "\\_" << _noImpressao->getDescricao( ) << std::endl;
-
+	buffer << "\\_" << _noImpressao->getDescricao( ) << std::endl;
+	bufferString = buffer.str();
+	arquivoLog.write( bufferString.c_str(), bufferString.size() );
+	arquivoLog.close();
 	if( _filhos.size() )
 	{
 		for( _iteradorFilhos = _filhos.begin(); _iteradorFilhos != _filhos.end(); ++_iteradorFilhos )

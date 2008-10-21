@@ -46,7 +46,7 @@ ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, 
 
 	this->procedureFunction->identificador = _identificador;
 	this->procedureFunction->categoria = _categoria;
-	this->procedureFunction->nivelLexico = +_nivelLexico;
+	this->procedureFunction->nivelLexico = _nivelLexico;
 	this->procedureFunction->tipo = _tipo;
 	this->procedureFunction->retorno = _retorno;
 	this->procedureFunction->deslocamento = _deslocamento;

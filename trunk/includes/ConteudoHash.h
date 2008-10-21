@@ -22,9 +22,6 @@ class ConteudoHash
 		std::string
 		getConteudo();
 
-	protected:
-
-	private:
 		StructHashVariavel*
 		variavel;
 
@@ -33,6 +30,10 @@ class ConteudoHash
 
 		StructHashParametrosFormais*
 		parametrosFormais;
+
+	protected:
+
+	private:
 };
 
 #endif /* CONTEUDOHASH_H_ */

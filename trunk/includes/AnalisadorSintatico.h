@@ -2,6 +2,7 @@
 #define ANALISADORSINTATICO_H_
 
 #include <iostream>
+#include <list>
 #include <map>
 #include <stack>
 
@@ -9,6 +10,7 @@
 #include "../../analisador-lexico/includes/ErrosExecucao.h"
 #include "../../analisador-lexico/includes/StructToken.h"
 
+#include "../includes/ConteudoHash.h"
 #include "../includes/NoArvoreSintatica.h"
 #include "../includes/TabelaHash.h"
 
@@ -29,6 +31,19 @@ class AnalisadorSintatico
 		std::map<int, StructToken>::iterator
 		iteradorSaidaAnalisadorLexico;
 
+/*
+ *		Inicio das Modificacoes
+ */
+		std::list<ConteudoHash>
+		listaVariaveis;
+
+		std::list<ConteudoHash>::iterator
+		iteradorListaVariaveis;
+
+/*
+ *		Fim das Modificacoes
+ */
+
 		NoArvoreSintatica*
 		raiz;
 
@@ -46,6 +61,9 @@ class AnalisadorSintatico
 
 		void
 		iniciaAnalise( );
+
+		void
+		setaTipoNaLista( std::string _tipo );
 
 		void
 		imprimeArvore( NoArvoreSintatica*, unsigned short int );
@@ -82,6 +100,9 @@ class AnalisadorSintatico
 
 		NoArvoreSintatica*
 		listaIdentificadores( );
+
+		NoArvoreSintatica*
+		listaIdentificadores( bool );
 
 		NoArvoreSintatica*
 		parteDeclaracoesSubRotinas( );

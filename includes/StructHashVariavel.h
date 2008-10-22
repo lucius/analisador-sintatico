@@ -15,7 +15,7 @@ typedef struct StructHashVariavel
 	std::string
 	tipo;
 
-	unsigned short int
+	int
 	deslocamento;
 };
 

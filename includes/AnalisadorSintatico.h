@@ -66,6 +66,12 @@ class AnalisadorSintatico
 		setaTipoNaLista( std::string _tipo );
 
 		void
+		insereVariaveisNaHash( );
+
+		void
+		insereParametrosFormaisNaHash( );
+
+		void
 		imprimeArvore( NoArvoreSintatica*, unsigned short int );
 
 		/*

@@ -13,11 +13,11 @@
 class ConteudoHash
 {
 	public:
-		ConteudoHash( std::string, std::string, unsigned short int, std::string, unsigned short int );
+		ConteudoHash( std::string, std::string, unsigned short int, std::string, int );
 
-		ConteudoHash( std::string, std::string, unsigned short int, std::string, unsigned short int, bool );
+		ConteudoHash( std::string, std::string, unsigned short int, std::string, int, bool );
 
-		ConteudoHash( std::string, std::string, unsigned short int, std::string, unsigned short int, std::string, unsigned short int );
+		ConteudoHash( std::string, std::string, unsigned short int, std::string, int, std::string, unsigned short int );
 
 		std::string
 		getConteudo();

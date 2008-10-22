@@ -15,7 +15,7 @@ typedef struct StructHashProcedureFunction
 	std::string
 	tipo;
 
-	unsigned short int
+	int
 	deslocamento;
 
 	std::string

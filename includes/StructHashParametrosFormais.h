@@ -15,7 +15,7 @@ typedef struct StructHashParametrosFormais
 	std::string
 	tipo;
 
-	unsigned short int
+	int
 	deslocamento;
 
 	bool

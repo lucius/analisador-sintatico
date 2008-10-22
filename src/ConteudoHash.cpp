@@ -8,7 +8,7 @@
 
 
 
-ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, unsigned short int _nivelLexico, std::string _tipo, unsigned short int _deslocamento )
+ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, unsigned short int _nivelLexico, std::string _tipo, int _deslocamento )
 {
 	this->procedureFunction = NULL;
 	this->parametrosFormais = NULL;
@@ -22,7 +22,7 @@ ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, 
 	this->variavel->deslocamento = _deslocamento;
 }
 
-ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, unsigned short int _nivelLexico, std::string _tipo, unsigned short int _deslocamento, bool _passagem )
+ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, unsigned short int _nivelLexico, std::string _tipo, int _deslocamento, bool _passagem )
 {
 	this->variavel = NULL;
 	this->procedureFunction = NULL;
@@ -37,7 +37,7 @@ ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, 
 	this->parametrosFormais->passagem = _passagem;
 }
 
-ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, unsigned short int _nivelLexico, std::string _tipo, unsigned short int _deslocamento,  std::string _retorno, unsigned short int _quantidadeParametros )
+ConteudoHash::ConteudoHash( std::string _identificador, std::string _categoria, unsigned short int _nivelLexico, std::string _tipo, int _deslocamento,  std::string _retorno, unsigned short int _quantidadeParametros )
 {
 	this->variavel = NULL;
 	this->parametrosFormais = NULL;

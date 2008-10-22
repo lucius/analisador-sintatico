@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -17,7 +18,6 @@ AnalisadorSintatico::AnalisadorSintatico( std::map<int, StructToken> _saidaAnali
 	this->saidaAnalisadorLexico = _saidaAnalisadorLexico;
 	this->iteradorSaidaAnalisadorLexico = this->saidaAnalisadorLexico.begin( );
 	this->nivelLexicoAtual = 0;
-	this->iteradorListaVariaveis = this->listaVariaveis.end( );
 
 	this->iniciaAnalise( );
 	this->imprimeArvore( this->raiz, 0 );
@@ -31,7 +31,66 @@ AnalisadorSintatico::~AnalisadorSintatico( )
 void
 AnalisadorSintatico::iniciaAnalise( )
 {
+
+//	for ( ; this->iteradorSaidaAnalisadorLexico != this->saidaAnalisadorLexico.end(); ++this->iteradorSaidaAnalisadorLexico )
+//	{
+//		std::cout << this->iteradorSaidaAnalisadorLexico->second.token << std::endl;
+//	}
 	this->raiz = this->programa( );
+}
+
+void
+AnalisadorSintatico::setaTipoNaLista( std::string _tipo )
+{
+	for ( ; this->iteradorListaVariaveis != this->listaVariaveis.end(); ++this->iteradorListaVariaveis )
+	{
+		if( this->iteradorListaVariaveis->getConteudo() == "variavel" )
+		{
+			this->iteradorListaVariaveis->variavel->tipo = _tipo;
+		}
+		else if( this->iteradorListaVariaveis->getConteudo() == "parametrosFormais" )
+		{
+			this->iteradorListaVariaveis->parametrosFormais->tipo = _tipo;
+		}
+		else if( this->iteradorListaVariaveis->getConteudo() == "procedimento|funcao" )
+		{
+			this->iteradorListaVariaveis->procedureFunction->tipo = _tipo;
+		}
+	}
+}
+
+void
+AnalisadorSintatico::insereVariaveisNaHash( )
+{
+	int
+	_deslocamento = 0;
+
+	std::list<ConteudoHash>::iterator
+	_it;
+
+	for( _it = this->listaVariaveis.begin(); _it != this->listaVariaveis.end(); ++_it )
+	{
+		this->hash[_it->variavel->identificador] = new ConteudoHash( _it->variavel->identificador, _it->variavel->categoria, _it->variavel->nivelLexico, _it->variavel->tipo, _deslocamento );
+
+		++_deslocamento;
+	}
+}
+
+void
+AnalisadorSintatico::insereParametrosFormaisNaHash( )
+{
+	int
+	_deslocamento = -3;
+
+	std::list<ConteudoHash>::reverse_iterator
+	_it;
+
+	for( _it = this->listaVariaveis.rbegin(); _it != this->listaVariaveis.rend(); ++_it )
+	{
+		this->hash[_it->variavel->identificador] = new ConteudoHash( _it->variavel->identificador, _it->variavel->categoria, _it->variavel->nivelLexico, _it->variavel->tipo, _deslocamento );
+
+		--_deslocamento;
+	}
 }
 
 void
@@ -56,7 +115,8 @@ AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned sh
 	_iteradorFilhos;
 
 	arquivoLog.open( "../data/at", std::ifstream::app );
-		if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser criado!! Sucesso;;") );
+
+	if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser criado!! Sucesso;;") );
 
 	for( _countTabs = 0; _countTabs < _tabs; _countTabs++ )
 	{
@@ -448,6 +508,12 @@ AnalisadorSintatico::parteDeclaracoesVariaveis( )
 			{
 				_parteDeclaracoesVariaveis->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 				++this->iteradorSaidaAnalisadorLexico;
+
+				/*
+				 * Insere na Hash Aqui!!!!!!!!!
+				 */
+				this->insereVariaveisNaHash( );
+
 			}
 			else
 			{
@@ -637,6 +703,9 @@ AnalisadorSintatico::declaracaoProcedimento( )
 	NoArvoreSintatica*
 	_declaracaoProcedimento = new NoArvoreSintatica( "<DECLARACAO_PROCEDIMENTO>", this->nivelLexicoAtual, false );
 
+	ConteudoHash*
+	_insercao;
+
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "procedure" )
 	{
 		_declaracaoProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
@@ -646,6 +715,17 @@ AnalisadorSintatico::declaracaoProcedimento( )
 
 		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 		{
+			_insercao = new ConteudoHash( this->iteradorSaidaAnalisadorLexico->second.token,
+										  "PROCEDIMENTO",
+										  this->nivelLexicoAtual,
+										  "",
+										  0,
+										  "",
+										  0 );
+
+			this->listaVariaveis.push_back( *_insercao );
+			delete _insercao;
+
 			_declaracaoProcedimento->insereFilho( this->identificador() );
 
 			if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
@@ -657,6 +737,11 @@ AnalisadorSintatico::declaracaoProcedimento( )
 			{
 				_declaracaoProcedimento->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 				++this->iteradorSaidaAnalisadorLexico;
+
+				/*
+				 * Insere na Hash Aqui!!!!!!!!!
+				 */
+				this->insereParametrosFormaisNaHash( );
 
 				_declaracaoProcedimento->insereFilho( this->bloco() );
 
@@ -686,6 +771,12 @@ AnalisadorSintatico::declaracaoFuncao( )
 	NoArvoreSintatica*
 	_declaracaoFuncao = new NoArvoreSintatica( "<DECLARACAO_FUNCAO>", this->nivelLexicoAtual, false );
 
+	ConteudoHash*
+	_insercao;
+
+	std::list<ConteudoHash>::iterator
+	_posicaoIdentificadorFuncao;
+
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "function" )
 	{
 		_declaracaoFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
@@ -695,6 +786,20 @@ AnalisadorSintatico::declaracaoFuncao( )
 
 		if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 		{
+			_insercao = new ConteudoHash( this->iteradorSaidaAnalisadorLexico->second.token,
+										  "FUNCAO",
+										  this->nivelLexicoAtual,
+										  "",
+										  0,
+										  "",
+										  0 );
+
+			this->listaVariaveis.push_back( *_insercao );
+
+			_posicaoIdentificadorFuncao = (this->listaVariaveis.end())--;
+
+			delete _insercao;
+
 			_declaracaoFuncao->insereFilho( this->identificador() );
 
 			if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
@@ -709,12 +814,19 @@ AnalisadorSintatico::declaracaoFuncao( )
 
 				if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 				{
+					_posicaoIdentificadorFuncao->procedureFunction->retorno = this->iteradorSaidaAnalisadorLexico->second.token;
+
 					_declaracaoFuncao->insereFilho( this->identificador() );
 
 					if( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
 					{
 						_declaracaoFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 						++this->iteradorSaidaAnalisadorLexico;
+
+						/*
+						 * Insere na Hash Aqui!!!!!!!!!
+						 */
+						this->insereParametrosFormaisNaHash( );
 
 						_declaracaoFuncao->insereFilho( this->bloco() );
 
@@ -1322,15 +1434,15 @@ AnalisadorSintatico::fator( )
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
-//		_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
-//		if( _classificacao == "variavel" )
-//		{
-//			_fator->insereFilho( this->variavel( ) );
-//		}
-//		else if( _classificacao == "procedimento|funcao" )
-//		{
-//			std::cout << "caraiodaporra";
-//		}
+		_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
+		if( _classificacao == "variavel" )
+		{
+			_fator->insereFilho( this->variavel( ) );
+		}
+		else if( _classificacao == "procedimento|funcao" )
+		{
+			_fator->insereFilho( this->chamadaFuncao() );
+		}
 	}
 	return _fator;
 }
@@ -1412,7 +1524,6 @@ AnalisadorSintatico::identificador( )
 
 	size_t
 	posicaoCorte = 0;
-
 	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
 		if ( !regcomp(&expressaoRegularDigito, "[^0-9]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
@@ -1439,7 +1550,14 @@ AnalisadorSintatico::identificador( )
 
 			++posicaoCorte;
 		}
-		++this->iteradorSaidaAnalisadorLexico;
+
+//		if (this->iteradorSaidaAnalisadorLexico->second.token == "m")
+//		{
+//		}
+//		else
+//		{
+			++this->iteradorSaidaAnalisadorLexico;
+//		}
 	}
 
 	regfree( &expressaoRegularDigito );
@@ -1454,7 +1572,7 @@ AnalisadorSintatico::letra( std::string _letraInsercao )
 	NoArvoreSintatica*
 	_letra = new NoArvoreSintatica( "<LETRA>", this->nivelLexicoAtual, false );
 
-	_letra->insereFilho( _letraInsercao, this->nivelLexicoAtual, true );
+	_letra->insereFilho( _letraInsercao.c_str(), this->nivelLexicoAtual, true );
 
 	return _letra;
 }
@@ -1532,51 +1650,3 @@ AnalisadorSintatico::comandoEscrita( )
 
 	return _comandoEscrita;
 }
-
-void
-AnalisadorSintatico::setaTipoNaLista( std::string _tipo )
-{
-	for ( this->iteradorListaVariaveis; this->iteradorListaVariaveis != this->listaVariaveis.end(); ++this->iteradorListaVariaveis )
-	{
-		if( this->iteradorListaVariaveis->getConteudo() == "variavel" )
-		{
-			this->iteradorListaVariaveis->variavel->tipo = _tipo;
-		}
-		else if( this->iteradorListaVariaveis->getConteudo() == "parametrosFormais" )
-		{
-			this->iteradorListaVariaveis->parametrosFormais->tipo = _tipo;
-		}
-		else if( this->iteradorListaVariaveis->getConteudo() == "procedimento|funcao" )
-		{
-			this->iteradorListaVariaveis->procedureFunction->tipo = _tipo;
-		}
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

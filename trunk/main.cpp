@@ -40,7 +40,6 @@ main(int argc, char* argv[])
 		{
 			lexico = new AnalisadorLexico( argv[1] );
 		}
-
 		sintatico = new AnalisadorSintatico( lexico->getMapAnalisadorLexico() );
 	}
 	/*

@@ -31,7 +31,6 @@ AnalisadorSintatico::~AnalisadorSintatico( )
 void
 AnalisadorSintatico::iniciaAnalise( )
 {
-
 //	for ( ; this->iteradorSaidaAnalisadorLexico != this->saidaAnalisadorLexico.end(); ++this->iteradorSaidaAnalisadorLexico )
 //	{
 //		std::cout << this->iteradorSaidaAnalisadorLexico->second.token << std::endl;
@@ -70,10 +69,16 @@ AnalisadorSintatico::insereVariaveisNaHash( )
 
 	for( _it = this->listaVariaveis.begin(); _it != this->listaVariaveis.end(); ++_it )
 	{
-		this->hash[_it->variavel->identificador] = new ConteudoHash( _it->variavel->identificador, _it->variavel->categoria, _it->variavel->nivelLexico, _it->variavel->tipo, _deslocamento );
+		this->hash[_it->variavel->identificador] = new ConteudoHash( _it->variavel->identificador,
+																	 _it->variavel->categoria,
+																	 _it->variavel->nivelLexico,
+																	 _it->variavel->tipo,
+																	 _deslocamento );
 
 		++_deslocamento;
 	}
+
+	this->listaVariaveis.clear( );
 }
 
 void
@@ -87,10 +92,30 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 
 	for( _it = this->listaVariaveis.rbegin(); _it != this->listaVariaveis.rend(); ++_it )
 	{
-		this->hash[_it->variavel->identificador] = new ConteudoHash( _it->variavel->identificador, _it->variavel->categoria, _it->variavel->nivelLexico, _it->variavel->tipo, _deslocamento );
+		if( _it->getConteudo() == "procedimento|funcao")
+		{
+			this->hash[_it->variavel->identificador] = new ConteudoHash( _it->procedureFunction->identificador,
+																		 _it->procedureFunction->categoria,
+																		 _it->procedureFunction->nivelLexico,
+																		 _it->procedureFunction->tipo,
+																		 _deslocamento,
+																		 _it->procedureFunction->retorno,
+																		 _it->procedureFunction->quantidadeParametros);
+		}
+		else if( _it->getConteudo() == "parametrosFormais")
+		{
+			this->hash[_it->variavel->identificador] = new ConteudoHash( _it->parametrosFormais->identificador,
+																		 _it->parametrosFormais->categoria,
+																		 _it->parametrosFormais->nivelLexico,
+																		 _it->parametrosFormais->tipo,
+																		 _deslocamento,
+																		 _it->parametrosFormais->passagem );
+		}
 
 		--_deslocamento;
 	}
+
+	this->listaVariaveis.clear( );
 }
 
 void
@@ -578,42 +603,48 @@ AnalisadorSintatico::listaIdentificadores( )
 	ConteudoHash*
 	_insercao;
 
-	bool
-	_controle = true;
-
-	if( this->iteradorSaidaAnalisadorLexico->second.classificacao != "IDENTIFICADOR" )
-	{
-		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
-	}
-
-	while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
 		_insercao = new ConteudoHash( this->iteradorSaidaAnalisadorLexico->second.token,
-				"VARIAVEL_SIMPLES",
-				this->nivelLexicoAtual,
-				"",
-				0 );
+									  "VARIAVEL_SIMPLES",
+									  this->nivelLexicoAtual,
+									  "",
+									  0 );
 
 		this->listaVariaveis.push_back( *_insercao );
 		delete _insercao;
 
-		if( _controle )
-		{
-			this->iteradorListaVariaveis = (this->listaVariaveis.end())--;
-			_controle = false;
-		}
+		this->iteradorListaVariaveis = (this->listaVariaveis.end())--;
 
 		_listaIdentificadores->insereFilho( this->identificador() );
 
-		if( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+		while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
 		{
 			_listaIdentificadores->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 			++this->iteradorSaidaAnalisadorLexico;
+
+			if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+			{
+				_insercao = new ConteudoHash( this->iteradorSaidaAnalisadorLexico->second.token,
+						"VARIAVEL_SIMPLES",
+						this->nivelLexicoAtual,
+						"",
+						0 );
+
+				this->listaVariaveis.push_back( *_insercao );
+				delete _insercao;
+
+				_listaIdentificadores->insereFilho( this->identificador() );
+			}
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos ','" );
+			}
 		}
-		else
-		{
-			return _listaIdentificadores;
-		}
+	}
+	else
+	{
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
 	}
 
 	return _listaIdentificadores;
@@ -628,42 +659,50 @@ AnalisadorSintatico::listaIdentificadores( bool _passagem )
 	ConteudoHash*
 	_insercao;
 
-	bool
-	_controle = true;
-
-	if( this->iteradorSaidaAnalisadorLexico->second.classificacao != "IDENTIFICADOR" )
-	{
-		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
-	}
-
-	while( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
 		_insercao = new ConteudoHash( this->iteradorSaidaAnalisadorLexico->second.token,
-								"PARAMETRO_FORMAL",
-								this->nivelLexicoAtual,
-								"",
-								0, _passagem );
+									  "PARAMETRO_FORMAL",
+									  this->nivelLexicoAtual,
+									  "",
+									  0,
+									  _passagem );
 
 		this->listaVariaveis.push_back( *_insercao );
 		delete _insercao;
 
-		if( _controle )
-		{
-			this->iteradorListaVariaveis = (this->listaVariaveis.end())--;
-			_controle = false;
-		}
+		this->iteradorListaVariaveis = (this->listaVariaveis.end())--;
 
 		_listaIdentificadores->insereFilho( this->identificador() );
 
-		if( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+		while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
 		{
 			_listaIdentificadores->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 			++this->iteradorSaidaAnalisadorLexico;
+
+			if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+			{
+				_insercao = new ConteudoHash( this->iteradorSaidaAnalisadorLexico->second.token,
+											  "PARAMETRO_FORMAL",
+											  this->nivelLexicoAtual,
+											  "",
+											  0,
+											  _passagem );
+
+				this->listaVariaveis.push_back( *_insercao );
+				delete _insercao;
+
+				_listaIdentificadores->insereFilho( this->identificador() );
+			}
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos ','" );
+			}
 		}
-		else
-		{
-			return _listaIdentificadores;
-		}
+	}
+	else
+	{
+		LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'var'" );
 	}
 
 	return _listaIdentificadores;
@@ -675,11 +714,11 @@ AnalisadorSintatico::parteDeclaracoesSubRotinas( )
 	NoArvoreSintatica*
 	_parteDeclaracoesSubRotinas = new NoArvoreSintatica( "<PARTE_DECLARACOES_SUB_ROTINAS>", this->nivelLexicoAtual, false );
 
-	if( (this->iteradorSaidaAnalisadorLexico->second.token != "procedure") &&
-		(this->iteradorSaidaAnalisadorLexico->second.token != "function") )
-	{
-		return NULL;
-	}
+//	if( (this->iteradorSaidaAnalisadorLexico->second.token != "procedure") &&
+//		(this->iteradorSaidaAnalisadorLexico->second.token != "function") )
+//	{
+//		return NULL;
+//	}
 
 	while( (this->iteradorSaidaAnalisadorLexico->second.token == "procedure") ||
 		   (this->iteradorSaidaAnalisadorLexico->second.token == "function") )
@@ -757,10 +796,10 @@ AnalisadorSintatico::declaracaoProcedimento( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'procedure'" );
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+//	else
+//	{
+//		return NULL;
+//	}
 
 	return _declaracaoProcedimento;
 }
@@ -834,7 +873,9 @@ AnalisadorSintatico::declaracaoFuncao( )
 					}
 					else
 					{
-						LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos" + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+						--this->iteradorSaidaAnalisadorLexico;
+						LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " + this->iteradorSaidaAnalisadorLexico->second.token );
+						++this->iteradorSaidaAnalisadorLexico;
 					}
 				}
 				else
@@ -844,7 +885,9 @@ AnalisadorSintatico::declaracaoFuncao( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ':' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				--this->iteradorSaidaAnalisadorLexico;
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ':' apos " + this->iteradorSaidaAnalisadorLexico->second.token );
+				++this->iteradorSaidaAnalisadorLexico;
 			}
 		}
 		else
@@ -852,10 +895,10 @@ AnalisadorSintatico::declaracaoFuncao( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'function'" );
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+//	else
+//	{
+//		return NULL;
+//	}
 
 	return _declaracaoFuncao;
 }
@@ -883,7 +926,7 @@ AnalisadorSintatico::parametrosFormais( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: parametro apos '('" );
 		}
 
-		while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+		while( this->iteradorSaidaAnalisadorLexico->second.token == ";" )
 		{
 			_parametrosFormais->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 			++this->iteradorSaidaAnalisadorLexico;
@@ -911,10 +954,10 @@ AnalisadorSintatico::parametrosFormais( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+//	else
+//	{
+//		return NULL;
+//	}
 
 	return _parametrosFormais;
 }
@@ -1107,8 +1150,8 @@ AnalisadorSintatico::comandoSemRotulo( )
 	NoArvoreSintatica*
 	_comandoSemRotulo = new NoArvoreSintatica( "<COMANDO_SEM_ROTULO>", this->nivelLexicoAtual, false );
 
-
-//	this->hash[this->iteradorSaidaAnalisadorLexico->second.token].getConteudo() == "variavel";
+	std::map<int, StructToken>::iterator
+	_proximoToken;
 
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "while" )
 	{
@@ -1126,6 +1169,28 @@ AnalisadorSintatico::comandoSemRotulo( )
 	{
 		_comandoSemRotulo->insereFilho( this->desvios() );
 	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.token == "read" )
+	{
+		_comandoSemRotulo->insereFilho( this->comandoLeitura() );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.token == "write" )
+	{
+		_comandoSemRotulo->insereFilho( this->comandoEscrita() );
+	}
+	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+	{
+		_proximoToken = this->iteradorSaidaAnalisadorLexico;
+		++_proximoToken;
+
+		if( _proximoToken->second.token == ":=" )
+		{
+			_comandoSemRotulo->insereFilho( this->atribuicao() );
+		}
+		else
+		{
+			_comandoSemRotulo->insereFilho( this->chamadaProcedimento() );
+		}
+	}
 
 	return _comandoSemRotulo;
 }
@@ -1138,7 +1203,7 @@ AnalisadorSintatico::atribuicao(  )
 
 	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
-		_atribuicao->insereFilho( this->atribuicao() );
+		_atribuicao->insereFilho( this->variavel() );
 
 		if( this->iteradorSaidaAnalisadorLexico->second.token == ":=" )
 		{
@@ -1186,10 +1251,6 @@ AnalisadorSintatico::chamadaProcedimento( )
 			{
 				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')' apos " + (--iteradorSaidaAnalisadorLexico)++->second.token );
 			}
-		}
-		else
-		{
-			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '(' apos " + (--iteradorSaidaAnalisadorLexico)++->second.token );
 		}
 	}
 	else
@@ -1303,6 +1364,7 @@ AnalisadorSintatico::listaExpressoes( )
 	_listaExpressoes = new NoArvoreSintatica( "<LISTA_EXPRESSOES>", this->nivelLexicoAtual, false );
 
 	_listaExpressoes->insereFilho( this->expressao() );
+
 	while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
 	{
 		_listaExpressoes->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
@@ -1435,6 +1497,7 @@ AnalisadorSintatico::fator( )
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
 		_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
+
 		if( _classificacao == "variavel" )
 		{
 			_fator->insereFilho( this->variavel( ) );
@@ -1472,6 +1535,16 @@ AnalisadorSintatico::chamadaFuncao( )
 		++this->iteradorSaidaAnalisadorLexico;
 
 		_chamadaFuncao->insereFilho( this->listaExpressoes() );
+
+		if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
+		{
+			_chamadaFuncao->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+			++this->iteradorSaidaAnalisadorLexico;
+		}
+		else
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')'" );
+		}
 	}
 
 	return _chamadaFuncao;
@@ -1551,13 +1624,8 @@ AnalisadorSintatico::identificador( )
 			++posicaoCorte;
 		}
 
-//		if (this->iteradorSaidaAnalisadorLexico->second.token == "m")
-//		{
-//		}
-//		else
-//		{
-			++this->iteradorSaidaAnalisadorLexico;
-//		}
+		++this->iteradorSaidaAnalisadorLexico;
+
 	}
 
 	regfree( &expressaoRegularDigito );
@@ -1593,7 +1661,7 @@ AnalisadorSintatico::comandoLeitura( )
 			_comandoLeitura->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 			++this->iteradorSaidaAnalisadorLexico;
 
-			_comandoLeitura->insereFilho( this->listaIdentificadores("") );
+			_comandoLeitura->insereFilho( this->listaIdentificadores() );
 
 			if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
 			{
@@ -1631,6 +1699,14 @@ AnalisadorSintatico::comandoEscrita( )
 			++this->iteradorSaidaAnalisadorLexico;
 
 			_comandoEscrita->insereFilho( this->expressao() );
+
+			while( this->iteradorSaidaAnalisadorLexico->second.token == "," )
+			{
+				_comandoEscrita->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+				++this->iteradorSaidaAnalisadorLexico;
+
+				_comandoEscrita->insereFilho( this->expressao() );
+			}
 
 			if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
 			{

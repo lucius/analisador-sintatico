@@ -94,7 +94,7 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 	{
 		if( _it->getConteudo() == "procedimento|funcao")
 		{
-			this->hash[_it->variavel->identificador] = new ConteudoHash( _it->procedureFunction->identificador,
+			this->hash[_it->procedureFunction->identificador] = new ConteudoHash( _it->procedureFunction->identificador,
 																		 _it->procedureFunction->categoria,
 																		 _it->procedureFunction->nivelLexico,
 																		 _it->procedureFunction->tipo,
@@ -104,14 +104,13 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 		}
 		else if( _it->getConteudo() == "parametrosFormais")
 		{
-			this->hash[_it->variavel->identificador] = new ConteudoHash( _it->parametrosFormais->identificador,
+			this->hash[_it->parametrosFormais->identificador] = new ConteudoHash( _it->parametrosFormais->identificador,
 																		 _it->parametrosFormais->categoria,
 																		 _it->parametrosFormais->nivelLexico,
 																		 _it->parametrosFormais->tipo,
 																		 _deslocamento,
 																		 _it->parametrosFormais->passagem );
 		}
-
 		--_deslocamento;
 	}
 
@@ -619,9 +618,10 @@ AnalisadorSintatico::listaIdentificadores( )
 									  0 );
 
 		this->listaVariaveis.push_back( *_insercao );
-		delete _insercao;
+//		delete _insercao;
 
-		this->iteradorListaVariaveis = (this->listaVariaveis.end())--;
+		this->iteradorListaVariaveis = this->listaVariaveis.end();
+		--this->iteradorListaVariaveis;
 
 		_listaIdentificadores->insereFilho( this->identificador() );
 
@@ -639,7 +639,7 @@ AnalisadorSintatico::listaIdentificadores( )
 						0 );
 
 				this->listaVariaveis.push_back( *_insercao );
-				delete _insercao;
+//				delete _insercao;
 
 				_listaIdentificadores->insereFilho( this->identificador() );
 			}
@@ -676,9 +676,10 @@ AnalisadorSintatico::listaIdentificadores( bool _passagem )
 									  _passagem );
 
 		this->listaVariaveis.push_back( *_insercao );
-		delete _insercao;
+//		delete _insercao;
 
-		this->iteradorListaVariaveis = (this->listaVariaveis.end())--;
+		this->iteradorListaVariaveis = this->listaVariaveis.end();
+		--this->iteradorListaVariaveis;
 
 		_listaIdentificadores->insereFilho( this->identificador() );
 
@@ -697,7 +698,7 @@ AnalisadorSintatico::listaIdentificadores( bool _passagem )
 											  _passagem );
 
 				this->listaVariaveis.push_back( *_insercao );
-				delete _insercao;
+//				delete _insercao;
 
 				_listaIdentificadores->insereFilho( this->identificador() );
 			}
@@ -770,7 +771,7 @@ AnalisadorSintatico::declaracaoProcedimento( )
 										  0 );
 
 			this->listaVariaveis.push_back( *_insercao );
-			delete _insercao;
+//			delete _insercao;
 
 			_declaracaoProcedimento->insereFilho( this->identificador() );
 
@@ -842,9 +843,10 @@ AnalisadorSintatico::declaracaoFuncao( )
 
 			this->listaVariaveis.push_back( *_insercao );
 
-			_posicaoIdentificadorFuncao = (this->listaVariaveis.end())--;
+			_posicaoIdentificadorFuncao = this->listaVariaveis.end();
+			--_posicaoIdentificadorFuncao;
 
-			delete _insercao;
+//			delete _insercao;
 
 			_declaracaoFuncao->insereFilho( this->identificador() );
 
@@ -902,10 +904,10 @@ AnalisadorSintatico::declaracaoFuncao( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: identificador apos 'function'" );
 		}
 	}
-//	else
-//	{
-//		return NULL;
-//	}
+	else
+	{
+		return NULL;
+	}
 
 	return _declaracaoFuncao;
 }

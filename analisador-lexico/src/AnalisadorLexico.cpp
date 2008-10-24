@@ -199,8 +199,10 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 
 		if ( bufferLinhaCodigo.size() != 0 )
 		{
-			this->codigoFonte.push_back( bufferLinhaCodigo );
-//			std::cout << *this->codigoFonte.rbegin() << " - " << this->codigoFonte.rbegin()->size() << std::endl;
+			this->codigoFonte.push_back( bufferLinhaCodigo + ' ' );
+			std::cout << *this->codigoFonte.rbegin() << " - " << this->codigoFonte.rbegin()->size() << std::endl;
+
+			std::cout << *this->codigoFonte.rbegin() << " - " << this->codigoFonte.rbegin()->size() << std::endl;
 		}
 		bufferLinhaCodigo.clear();
 

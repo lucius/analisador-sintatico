@@ -148,15 +148,18 @@ AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned sh
 			buffer << "	|";
 	}
 
-	buffer << "\\_" << _noImpressao->getDescricao( ) << std::endl;
-	bufferString = buffer.str();
-	arquivoLog.write( bufferString.c_str(), bufferString.size() );
-	arquivoLog.close();
-	if( _filhos.size() )
+	if( _noImpressao != NULL )
 	{
-		for( _iteradorFilhos = _filhos.begin(); _iteradorFilhos != _filhos.end(); ++_iteradorFilhos )
+		buffer << "\\_" << _noImpressao->getDescricao( ) << std::endl;
+		bufferString = buffer.str();
+		arquivoLog.write( bufferString.c_str(), bufferString.size() );
+		arquivoLog.close();
+		if( _filhos.size() )
 		{
-			this->imprimeArvore( *_iteradorFilhos, _tabs+1 );
+			for( _iteradorFilhos = _filhos.begin(); _iteradorFilhos != _filhos.end(); ++_iteradorFilhos )
+			{
+				this->imprimeArvore( *_iteradorFilhos, _tabs+1 );
+			}
 		}
 	}
 }
@@ -220,7 +223,7 @@ AnalisadorSintatico::programa( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '(' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '(' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 			}
 		}
 		else
@@ -310,10 +313,10 @@ AnalisadorSintatico::parteDeclaracoesRotulos( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos 'label'" );
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+//	else
+//	{
+//		return NULL;
+//	}
 
 	return _parteDeclaracoesRotulos;
 }
@@ -344,14 +347,14 @@ AnalisadorSintatico::parteDefinicoesTipos( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 			}
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+//	else
+//	{
+//		return NULL;
+//	}
 
 	return _parteDefinicoesTipos;
 }
@@ -383,13 +386,13 @@ AnalisadorSintatico::definicaoTipo()
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '=' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '=' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 		}
 	}
-	else
-	{
-		return NULL;
-	}
+//	else
+//	{
+//		return NULL;
+//	}
 
 	return _definicaoTipo;
 }
@@ -451,7 +454,9 @@ AnalisadorSintatico::tipo( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ']' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				--this->iteradorSaidaAnalisadorLexico;
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ']' apos " + this->iteradorSaidaAnalisadorLexico->second.token );
+				++this->iteradorSaidaAnalisadorLexico;
 			}
 		}
 		else
@@ -499,7 +504,7 @@ AnalisadorSintatico::indice( )
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '..' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: '..' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 		}
 	}
 	else
@@ -542,7 +547,7 @@ AnalisadorSintatico::parteDeclaracoesVariaveis( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ';' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 			}
 		}
 	}
@@ -583,7 +588,9 @@ AnalisadorSintatico::declaracaoVariaveis( )
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ':' apos variavel(eis)" );
+			--this->iteradorSaidaAnalisadorLexico;
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ':' apos '" + this->iteradorSaidaAnalisadorLexico->second.token + "'" );
+			++this->iteradorSaidaAnalisadorLexico;
 		}
 	}
 	else
@@ -951,7 +958,7 @@ AnalisadorSintatico::parametrosFormais( )
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: ')' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 		}
 	}
 //	else
@@ -991,7 +998,7 @@ AnalisadorSintatico::secaoParametrosFormais( )
 		}
 		else
 		{
-			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 		}
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.token == "var" )
@@ -1019,7 +1026,7 @@ AnalisadorSintatico::secaoParametrosFormais( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 			}
 		}
 		else
@@ -1052,7 +1059,7 @@ AnalisadorSintatico::secaoParametrosFormais( )
 			}
 			else
 			{
-				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " + (--this->iteradorSaidaAnalisadorLexico)++->second.token );
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: :' apos " /*+ (--this->iteradorSaidaAnalisadorLexico)++->second.token*/ );
 			}
 		}
 		else
@@ -1471,14 +1478,14 @@ AnalisadorSintatico::fator( )
 		_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
 
-		this->fator( );
+		_fator->insereFilho( this->fator() );
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.token == "(" )
 	{
 		_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
 		++this->iteradorSaidaAnalisadorLexico;
 
-		this->expressao( );
+		_fator->insereFilho( this->expressao() );
 
 		if( this->iteradorSaidaAnalisadorLexico->second.token == ")" )
 		{
@@ -1492,7 +1499,7 @@ AnalisadorSintatico::fator( )
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
 	{
-		this->numero( );
+		_fator->insereFilho( this->numero() );
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
@@ -1555,19 +1562,22 @@ AnalisadorSintatico::numero( )
 {
 	NoArvoreSintatica*
 	_numero = new NoArvoreSintatica( "<NUMERO>", this->nivelLexicoAtual, false );
+//
+//	size_t
+//	posicaoCorte;
+//
+//	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
+//	{
+//		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
+//		{
+//			_numero->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+//			++posicaoCorte;
+//		}
+//		++this->iteradorSaidaAnalisadorLexico;
+//	}
 
-	size_t
-	posicaoCorte;
-
-	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "NUMERO" )
-	{
-		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
-		{
-			_numero->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
-			++posicaoCorte;
-		}
-		++this->iteradorSaidaAnalisadorLexico;
-	}
+	_numero->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+	++this->iteradorSaidaAnalisadorLexico;
 
 	return _numero;
 }
@@ -1589,47 +1599,52 @@ AnalisadorSintatico::identificador( )
 	NoArvoreSintatica*
 	_identificador = new NoArvoreSintatica( "<IDENTIFICADOR>", this->nivelLexicoAtual, false );
 
-	regex_t
-	expressaoRegularDigito;
+//	regex_t
+//	expressaoRegularDigito;
+//
+//	regex_t
+//	expressaoRegularLetra;
+//
+//	size_t
+//	posicaoCorte = 0;
+//
+//	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
+//	{
+//		if ( !regcomp(&expressaoRegularDigito, "[^0-9]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
+//		{
+//		}
+//		if ( !regcomp(&expressaoRegularLetra, "[^A-Z]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
+//		{
+//		}
+//
+//		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
+//		{
+//			if( regexec(&expressaoRegularDigito, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+//			{
+//				_identificador->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+//			}
+//			else if ( regexec(&expressaoRegularLetra, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
+//			{
+//				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+//			}
+//			else
+//			{
+//				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
+//			}
+//
+//			++posicaoCorte;
+//		}
+//
+//		++this->iteradorSaidaAnalisadorLexico;
+//
+//	}
+//
+//	regfree( &expressaoRegularDigito );
+//	regfree( &expressaoRegularLetra );
 
-	regex_t
-	expressaoRegularLetra;
+	_identificador->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
+	++this->iteradorSaidaAnalisadorLexico;
 
-	size_t
-	posicaoCorte = 0;
-	if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
-	{
-		if ( !regcomp(&expressaoRegularDigito, "[^0-9]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
-		{
-		}
-		if ( !regcomp(&expressaoRegularLetra, "[^A-Z]", REG_EXTENDED|REG_ICASE|REG_NOSUB) )
-		{
-		}
-
-		while ( this->iteradorSaidaAnalisadorLexico->second.token.size() != posicaoCorte )
-		{
-			if( regexec(&expressaoRegularDigito, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
-			{
-				_identificador->insereFilho( this->digito(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
-			}
-			else if ( regexec(&expressaoRegularLetra, this->iteradorSaidaAnalisadorLexico->second.token.c_str(), 0, (regmatch_t *)NULL, 0) )
-			{
-				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
-			}
-			else
-			{
-				_identificador->insereFilho( this->letra(this->iteradorSaidaAnalisadorLexico->second.token.substr(posicaoCorte, 1)) );
-			}
-
-			++posicaoCorte;
-		}
-
-		++this->iteradorSaidaAnalisadorLexico;
-
-	}
-
-	regfree( &expressaoRegularDigito );
-	regfree( &expressaoRegularLetra );
 
 	return _identificador;
 }

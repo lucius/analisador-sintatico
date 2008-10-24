@@ -228,6 +228,9 @@ AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 
 	if ( !this->token.empty() )
 	{
+
+		std::cout << this->token << " - " << this->token.length() << std::endl;
+
 		bufferToken.token = this->token;
 
 		bufferToken.classificacao = _classificacao;
@@ -514,19 +517,17 @@ AutomatoFD::estadoH( )
 		{
 			this->estadoH( );
 		}
-		else if( !this->validaCaractereREGEX("^[ |;|+|=|>|<|*|/|,|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "AA") )
+		else if( !this->validaCaractereREGEX("^[ |;|+|=|>|<|\\)|*|/|,|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "HH") )
 		{
-			while( !this->validaCaractereREGEX("^[ |;|+|=|>|<|*|/|,|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "AA") )
+			while( !this->validaCaractereREGEX("^[ |;|+|=|>|<|\\)|*|/|,|-]|^<=|^>=|^<>", (*this->codigoPascal.begin()).c_str(), "HH") )
 			{
 				this->adicionaCaractereToken( );
 			}
 			LogErros::getInstancia( ).insereErro( this->numeroLinha, ":: " + this->token + " :: " + "IDENTIFICADOR_INVALIDO" );
 			this->adicionaTokenArrayAssociativo( "IDENTIFICADOR_INVALIDO" );
 		}
-		else
-		{
-			this->adicionaTokenArrayAssociativo( "NUMERO" );
-		}
+
+		this->adicionaTokenArrayAssociativo( "NUMERO" );
 	}
 	catch( ErrosExecucao* erro )
 	{

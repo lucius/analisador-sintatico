@@ -34,6 +34,7 @@ main(int argc, char* argv[])
 		else if ( argv[2] )
 		{
 			lexico = new AnalisadorLexico( argv[1], argv[2] );
+			sintatico = new AnalisadorSintatico( lexico->getMapAnalisadorLexico(), argv[2] );
 		}
 		/*
 		 * Se nao foi especificado um nome para o log, o resultado será exibido na saida padrao do sistema
@@ -41,8 +42,8 @@ main(int argc, char* argv[])
 		else
 		{
 			lexico = new AnalisadorLexico( argv[1] );
+			sintatico = new AnalisadorSintatico( lexico->getMapAnalisadorLexico() );
 		}
-		sintatico = new AnalisadorSintatico( lexico->getMapAnalisadorLexico() );
 	}
 	/*
 	 * Se ocorrer algum problema durante a execucao do Analisador Lexico, o erro sera exibido

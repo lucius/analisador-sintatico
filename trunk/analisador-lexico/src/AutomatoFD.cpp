@@ -228,9 +228,6 @@ AutomatoFD::adicionaTokenArrayAssociativo( const std::string _classificacao )
 
 	if ( !this->token.empty() )
 	{
-
-		std::cout << this->token << " - " << this->token.length() << std::endl;
-
 		bufferToken.token = this->token;
 
 		bufferToken.classificacao = _classificacao;

@@ -1597,16 +1597,24 @@ AnalisadorSintatico::fator( )
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
-		_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
+		if( this->hash.find(this->iteradorSaidaAnalisadorLexico->second.token) != this->hash.end() )
+		{
+			_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
 
-		if( (_classificacao == "variavel") || (_classificacao == "parametrosFormais") )
-		{
-			_fator->insereFilho( this->variavel( ) );
+			if( (_classificacao == "variavel") || (_classificacao == "parametrosFormais") )
+			{
+				_fator->insereFilho( this->variavel( ) );
+			}
+			else if( _classificacao == "procedimento|funcao" )
+			{
+				_fator->insereFilho( this->chamadaFuncao() );
+			}
 		}
-		else if( _classificacao == "procedimento|funcao" )
+		else
 		{
-			_fator->insereFilho( this->chamadaFuncao() );
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Identificador '" + this->iteradorSaidaAnalisadorLexico->second.token + "' nao encontrado" );
 		}
+
 	}
 	return _fator;
 }

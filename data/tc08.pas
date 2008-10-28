@@ -23,7 +23,7 @@ begin
 	if (i<11)
 	then begin
 		teste1(1,2,false);
-	end
+	end;
 	if not(j<=k)
 	then begin
 		if (i + j)>5 then teste2(i>j)

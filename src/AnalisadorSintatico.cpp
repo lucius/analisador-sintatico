@@ -5,9 +5,9 @@
 #include <regex.h>
 #include <sstream>
 
-#include "../../analisador-lexico/includes/AnalisadorLexico.h"
-#include "../../analisador-lexico/includes/LogErros.h"
-#include "../../analisador-lexico/includes/StructToken.h"
+#include "../analisador-lexico/includes/AnalisadorLexico.h"
+#include "../analisador-lexico/includes/LogErros.h"
+#include "../analisador-lexico/includes/StructToken.h"
 
 #include "../includes/AnalisadorSintatico.h"
 #include "../includes/ConteudoHash.h"
@@ -18,6 +18,19 @@ AnalisadorSintatico::AnalisadorSintatico( std::map<int, StructToken> _saidaAnali
 	this->saidaAnalisadorLexico = _saidaAnalisadorLexico;
 	this->iteradorSaidaAnalisadorLexico = this->saidaAnalisadorLexico.begin( );
 	this->nivelLexicoAtual = 0;
+	this->caminhoLog = "../data/at";
+
+	this->iniciaAnalise( );
+	this->imprimeHash( );
+	this->imprimeArvore( this->raiz, 0 );
+}
+
+AnalisadorSintatico::AnalisadorSintatico( std::map<int, StructToken> _saidaAnalisadorLexico, const std::string _caminhoLog )
+{
+	this->saidaAnalisadorLexico = _saidaAnalisadorLexico;
+	this->iteradorSaidaAnalisadorLexico = this->saidaAnalisadorLexico.begin( );
+	this->nivelLexicoAtual = 0;
+	this->caminhoLog = _caminhoLog;
 
 	this->iniciaAnalise( );
 	this->imprimeHash( );
@@ -91,6 +104,12 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 	std::list<ConteudoHash>::reverse_iterator
 	_it;
 
+	unsigned int
+	_contador = 0;
+
+	std::string
+	_ultimaEntrada;
+
 	for( _it = this->listaVariaveis.rbegin(); _it != this->listaVariaveis.rend(); ++_it )
 	{
 		if( _it->getConteudo() == "procedimento|funcao")
@@ -102,6 +121,7 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 																		 _deslocamento,
 																		 _it->procedureFunction->retorno,
 																		 _it->procedureFunction->quantidadeParametros);
+			_ultimaEntrada = _it->procedureFunction->identificador;
 		}
 		else if( _it->getConteudo() == "parametrosFormais")
 		{
@@ -111,9 +131,12 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 																		 _it->parametrosFormais->tipo,
 																		 _deslocamento,
 																		 _it->parametrosFormais->passagem );
+			++_contador;
 		}
 		--_deslocamento;
 	}
+
+	this->hash[_ultimaEntrada]->procedureFunction->quantidadeParametros = _contador;
 
 	this->listaVariaveis.clear( );
 }
@@ -136,7 +159,7 @@ AnalisadorSintatico::imprimeHash( )
 	std::string
 	_tipoConteudo;
 
-	arquivoLog.open( "../data/at", std::ifstream::app );
+	arquivoLog.open( this->caminhoLog.c_str(), std::ifstream::app );
 
 	if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser aberto!! Sucesso;;") );
 
@@ -207,7 +230,7 @@ AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned sh
 	std::vector<NoArvoreSintatica*>::iterator
 	_iteradorFilhos;
 
-	arquivoLog.open( "../data/at", std::ifstream::app );
+	arquivoLog.open( this->caminhoLog.c_str(), std::ifstream::app );
 
 	if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser criado!! Sucesso;;") );
 
@@ -1576,7 +1599,7 @@ AnalisadorSintatico::fator( )
 	{
 		_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
 
-		if( _classificacao == "variavel" )
+		if( (_classificacao == "variavel") || (_classificacao == "parametrosFormais") )
 		{
 			_fator->insereFilho( this->variavel( ) );
 		}

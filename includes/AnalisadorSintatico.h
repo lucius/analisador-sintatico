@@ -6,9 +6,9 @@
 #include <map>
 #include <stack>
 
-#include "../../analisador-lexico/includes/AnalisadorLexico.h"
-#include "../../analisador-lexico/includes/ErrosExecucao.h"
-#include "../../analisador-lexico/includes/StructToken.h"
+#include "../analisador-lexico/includes/AnalisadorLexico.h"
+#include "../analisador-lexico/includes/ErrosExecucao.h"
+#include "../analisador-lexico/includes/StructToken.h"
 
 #include "../includes/ConteudoHash.h"
 #include "../includes/NoArvoreSintatica.h"
@@ -21,6 +21,8 @@ class AnalisadorSintatico
 	public:
 		AnalisadorSintatico( std::map<int, StructToken> );
 
+		AnalisadorSintatico( std::map<int, StructToken>, const std::string );
+
 		virtual
 		~AnalisadorSintatico( );
 
@@ -31,18 +33,11 @@ class AnalisadorSintatico
 		std::map<int, StructToken>::iterator
 		iteradorSaidaAnalisadorLexico;
 
-/*
- *		Inicio das Modificacoes
- */
 		std::list<ConteudoHash>
 		listaVariaveis;
 
 		std::list<ConteudoHash>::iterator
 		iteradorListaVariaveis;
-
-/*
- *		Fim das Modificacoes
- */
 
 		NoArvoreSintatica*
 		raiz;
@@ -50,14 +45,14 @@ class AnalisadorSintatico
 		TabelaHash
 		hash;
 
+		std::string
+		caminhoLog;
+
 		unsigned int
 		nivelLexicoAtual;
 
 		unsigned int
 		deslocamentoAtual;
-
-		std::stack<NoArvoreSintatica*>
-		pilhaDeslocamento;
 
 		void
 		iniciaAnalise( );

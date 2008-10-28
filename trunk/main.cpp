@@ -6,6 +6,8 @@
 #include "./analisador-lexico/includes/LogErros.h"
 
 #include "./includes/AnalisadorSintatico.h"
+#include "./includes/ConteudoHash.h"
+#include "./includes/StructHashVariavel.h"
 
 
 int

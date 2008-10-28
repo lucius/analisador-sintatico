@@ -72,6 +72,9 @@ class AnalisadorSintatico
 		insereParametrosFormaisNaHash( );
 
 		void
+		imprimeHash( );
+
+		void
 		imprimeArvore( NoArvoreSintatica*, unsigned short int );
 
 		/*

@@ -20,6 +20,7 @@ AnalisadorSintatico::AnalisadorSintatico( std::map<int, StructToken> _saidaAnali
 	this->nivelLexicoAtual = 0;
 
 	this->iniciaAnalise( );
+	this->imprimeHash( );
 	this->imprimeArvore( this->raiz, 0 );
 }
 
@@ -115,6 +116,74 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 	}
 
 	this->listaVariaveis.clear( );
+}
+
+void
+AnalisadorSintatico::imprimeHash( )
+{
+	TabelaHash::iterator
+	_iteradorTabelaHash;
+
+	std::ofstream
+	arquivoLog;
+
+	std::string
+	bufferString;
+
+	std::stringstream
+	buffer;
+
+	std::string
+	_tipoConteudo;
+
+	arquivoLog.open( "../data/at", std::ifstream::app );
+
+	if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser aberto!! Sucesso;;") );
+
+	buffer << std::endl << "*****************" << std::endl << "** Tabela Hash **" << std::endl << "*****************" << std::endl << std::endl;
+
+	for( _iteradorTabelaHash = this->hash.begin(); _iteradorTabelaHash != this->hash.end(); ++_iteradorTabelaHash )
+	{
+		_tipoConteudo = _iteradorTabelaHash->second->getConteudo();
+
+		if( _tipoConteudo == "variavel" )
+		{
+			buffer << "< VARIAVEL >" << std::endl;
+			buffer << "Identificador: " << _iteradorTabelaHash->second->variavel->identificador << std::endl;
+			buffer << "Categoria: " << _iteradorTabelaHash->second->variavel->categoria << std::endl;
+			buffer << "Nivel Lexico: " << _iteradorTabelaHash->second->variavel->nivelLexico << std::endl;
+			buffer << "Tipo: " << _iteradorTabelaHash->second->variavel->tipo << std::endl;
+			buffer << "Deslocamento: " << _iteradorTabelaHash->second->variavel->deslocamento << std::endl;
+			buffer << "< /VARIAVEL >" << std::endl << std::endl;
+		}
+		else if( _tipoConteudo == "procedimento|funcao" )
+		{
+			buffer << "< PROCEDIMENTO|FUNCAO >" << std::endl;
+			buffer << "Identificador: " << _iteradorTabelaHash->second->procedureFunction->identificador << std::endl;
+			buffer << "Categoria: " << _iteradorTabelaHash->second->procedureFunction->categoria << std::endl;
+			buffer << "Nivel Lexico: " << _iteradorTabelaHash->second->procedureFunction->nivelLexico << std::endl;
+			buffer << "Tipo: " << _iteradorTabelaHash->second->procedureFunction->tipo << std::endl;
+			buffer << "Deslocamento: " << _iteradorTabelaHash->second->procedureFunction->deslocamento << std::endl;
+			buffer << "Retorno: " << _iteradorTabelaHash->second->procedureFunction->retorno << std::endl;
+			buffer << "Quantidade de Parametros: " << _iteradorTabelaHash->second->procedureFunction->quantidadeParametros << std::endl;
+			buffer << "< /PROCEDIMENTO|FUNCAO >" << std::endl << std::endl;
+		}
+		else
+		{
+			buffer << "< PARAMETROS_FORMAIS >" << std::endl;
+			buffer << "Identificador: " << _iteradorTabelaHash->second->parametrosFormais->identificador << std::endl;
+			buffer << "Categoria: " << _iteradorTabelaHash->second->parametrosFormais->categoria << std::endl;
+			buffer << "Nivel Lexico: " << _iteradorTabelaHash->second->parametrosFormais->nivelLexico << std::endl;
+			buffer << "Tipo: " << _iteradorTabelaHash->second->parametrosFormais->tipo << std::endl;
+			buffer << "Deslocamento: " << _iteradorTabelaHash->second->parametrosFormais->deslocamento << std::endl;
+			buffer << "Passagem: " << _iteradorTabelaHash->second->parametrosFormais->passagem << std::endl;
+			buffer << "< /PARAMETROS_FORMAIS >" << std::endl << std::endl;
+		}
+	}
+	bufferString = buffer.str();
+	arquivoLog.write( bufferString.c_str(), bufferString.size() );
+
+	arquivoLog.close( );
 }
 
 void

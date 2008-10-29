@@ -39,7 +39,7 @@ AnalisadorSintatico::AnalisadorSintatico( std::map<int, StructToken> _saidaAnali
 
 AnalisadorSintatico::~AnalisadorSintatico( )
 {
-
+	this->hash.clear( );
 }
 
 void
@@ -83,12 +83,19 @@ AnalisadorSintatico::insereVariaveisNaHash( )
 
 	for( _it = this->listaVariaveis.begin(); _it != this->listaVariaveis.end(); ++_it )
 	{
-		this->hash[_it->variavel->identificador] = new ConteudoHash( _it->variavel->identificador,
-																	 _it->variavel->categoria,
-																	 _it->variavel->nivelLexico,
-																	 _it->variavel->tipo,
-																	 _deslocamento );
-
+		if( this->hash[ std::pair<std::string, unsigned int> (_it->variavel->identificador, this->nivelLexicoAtual) ] == this->hash.end() )
+		{
+			this->hash.insert( std::pair<std::string, ConteudoHash*> (_it->variavel->identificador,
+													new ConteudoHash( _it->variavel->identificador,
+																	  _it->variavel->categoria,
+																	  _it->variavel->nivelLexico,
+																	  _it->variavel->tipo,
+																	  _deslocamento)) );
+		}
+		else
+		{
+			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Redeclaracao (Variavel): '" + _it->variavel->identificador + "'" );
+		}
 		++_deslocamento;
 	}
 
@@ -110,33 +117,53 @@ AnalisadorSintatico::insereParametrosFormaisNaHash( )
 	std::string
 	_ultimaEntrada;
 
+	std::string
+	_conteudo;
+
 	for( _it = this->listaVariaveis.rbegin(); _it != this->listaVariaveis.rend(); ++_it )
 	{
-		if( _it->getConteudo() == "procedimento|funcao")
+		_conteudo = _it->getConteudo( );
+		if( _conteudo == "procedimento|funcao")
 		{
-			this->hash[_it->procedureFunction->identificador] = new ConteudoHash( _it->procedureFunction->identificador,
+			if( this->hash[ std::pair<std::string, unsigned int> (_it->procedureFunction->identificador, this->nivelLexicoAtual) ] == this->hash.end() )
+			{
+				this->hash.insert( std::pair<std::string, ConteudoHash*>(_it->procedureFunction->identificador,
+													   new ConteudoHash( _it->procedureFunction->identificador,
 																		 _it->procedureFunction->categoria,
 																		 _it->procedureFunction->nivelLexico,
 																		 _it->procedureFunction->tipo,
 																		 _deslocamento,
 																		 _it->procedureFunction->retorno,
-																		 _it->procedureFunction->quantidadeParametros);
-			_ultimaEntrada = _it->procedureFunction->identificador;
+																		 _it->procedureFunction->quantidadeParametros)) );
+				_ultimaEntrada = _it->procedureFunction->identificador;
+			}
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Redeclaracao (Procedimento|Funcao): '" + _it->procedureFunction->identificador + "'" );
+			}
 		}
-		else if( _it->getConteudo() == "parametrosFormais")
+		else if( _conteudo == "parametrosFormais")
 		{
-			this->hash[_it->parametrosFormais->identificador] = new ConteudoHash( _it->parametrosFormais->identificador,
+			if( this->hash[ std::pair<std::string, unsigned int> (_it->parametrosFormais->identificador, this->nivelLexicoAtual) ] == this->hash.end() )
+			{
+				this->hash.insert( std::pair<std::string, ConteudoHash*>(_it->parametrosFormais->identificador,
+													   new ConteudoHash( _it->parametrosFormais->identificador,
 																		 _it->parametrosFormais->categoria,
 																		 _it->parametrosFormais->nivelLexico,
 																		 _it->parametrosFormais->tipo,
 																		 _deslocamento,
-																		 _it->parametrosFormais->passagem );
-			++_contador;
+																		 _it->parametrosFormais->passagem)) );
+				++_contador;
+			}
+			else
+			{
+				LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Redeclaracao (Parametro Formal): '" + _it->parametrosFormais->identificador + "'" );
+			}
 		}
 		--_deslocamento;
 	}
 
-	this->hash[_ultimaEntrada]->procedureFunction->quantidadeParametros = _contador;
+	this->hash[std::pair<const std::string, const unsigned int>(_ultimaEntrada,this->nivelLexicoAtual)]->second->procedureFunction->quantidadeParametros = _contador;
 
 	this->listaVariaveis.clear( );
 }
@@ -790,7 +817,6 @@ AnalisadorSintatico::listaIdentificadores( bool _passagem )
 											  _passagem );
 
 				this->listaVariaveis.push_back( *_insercao );
-//				delete _insercao;
 
 				_listaIdentificadores->insereFilho( this->identificador() );
 			}
@@ -937,8 +963,6 @@ AnalisadorSintatico::declaracaoFuncao( )
 
 			_posicaoIdentificadorFuncao = this->listaVariaveis.end();
 			--_posicaoIdentificadorFuncao;
-
-//			delete _insercao;
 
 			_declaracaoFuncao->insereFilho( this->identificador() );
 
@@ -1597,15 +1621,24 @@ AnalisadorSintatico::fator( )
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
-		if( this->hash.find(this->iteradorSaidaAnalisadorLexico->second.token) != this->hash.end() )
+		if( this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual)] != this->hash.end() )
 		{
-			_classificacao = this->hash[this->iteradorSaidaAnalisadorLexico->second.token]->getConteudo();
+			_classificacao = this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual)]->second->getConteudo();
 
 			if( (_classificacao == "variavel") || (_classificacao == "parametrosFormais") )
 			{
 				_fator->insereFilho( this->variavel( ) );
 			}
 			else if( _classificacao == "procedimento|funcao" )
+			{
+				_fator->insereFilho( this->chamadaFuncao() );
+			}
+		}
+		else if( this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual+1)] != this->hash.end() )
+		{
+			_classificacao = this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual+1)]->second->getConteudo();
+
+			if( _classificacao == "procedimento|funcao" )
 			{
 				_fator->insereFilho( this->chamadaFuncao() );
 			}

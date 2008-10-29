@@ -9,7 +9,7 @@ typedef struct StructHashParametrosFormais
 	std::string
 	categoria;
 
-	unsigned short int
+	unsigned int
 	nivelLexico;
 
 	std::string

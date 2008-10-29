@@ -9,8 +9,8 @@ function f01(p01:integer):integer;
 					function f06(p06:integer):integer;
 						function f07(p07:integer):integer;
 							function f08(p08:integer):integer;
-								function t09(p09:integer):integer;
-									function t10(p10:integer):integer;
+								function f09(p09:integer):integer;
+									function f10(p10:integer):integer;
 									begin
 										f10:=1
 									end

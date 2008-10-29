@@ -6,17 +6,20 @@
 CPP_SRCS += \
 ../src/AnalisadorSintatico.cpp \
 ../src/ConteudoHash.cpp \
-../src/NoArvoreSintatica.cpp 
+../src/NoArvoreSintatica.cpp \
+../src/TabelaHash.cpp 
 
 OBJS += \
 ./src/AnalisadorSintatico.o \
 ./src/ConteudoHash.o \
-./src/NoArvoreSintatica.o 
+./src/NoArvoreSintatica.o \
+./src/TabelaHash.o 
 
 CPP_DEPS += \
 ./src/AnalisadorSintatico.d \
 ./src/ConteudoHash.d \
-./src/NoArvoreSintatica.d 
+./src/NoArvoreSintatica.d \
+./src/TabelaHash.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

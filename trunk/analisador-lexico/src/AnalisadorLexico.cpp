@@ -195,7 +195,7 @@ AnalisadorLexico::carregaCodigo( const std::string caminho )
 			found = bufferLinhaCodigo.find_first_of( '\t' );
 		}
 
-		std::transform(bufferLinhaCodigo.begin( ), bufferLinhaCodigo.end( ), bufferLinhaCodigo.begin( ), pf);
+//		std::transform(bufferLinhaCodigo.begin( ), bufferLinhaCodigo.end( ), bufferLinhaCodigo.begin( ), pf);
 
 		if ( bufferLinhaCodigo.size() != 0 )
 		{

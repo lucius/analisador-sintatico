@@ -1,5 +1,5 @@
 [1] [1] [program] [PALAVRA_CHAVE]
-[2] [1] [tc10_a] [IDENTIFICADOR]
+[2] [1] [tc10] [IDENTIFICADOR]
 [3] [1] [(] [SIMBOLOS_ESPECIAIS]
 [4] [1] [)] [SIMBOLOS_ESPECIAIS]
 [5] [1] [;] [PONTUACAO]
@@ -66,56 +66,143 @@
 [66] [7] [:] [PONTUACAO]
 [67] [7] [integer] [IDENTIFICADOR]
 [68] [7] [;] [PONTUACAO]
-[69] [8] [begin] [PALAVRA_CHAVE]
-[70] [9] [f05] [IDENTIFICADOR]
-[71] [9] [:=] [OPERADOR_DE_ATRIBUICAO]
-[72] [9] [f06] [IDENTIFICADOR]
-[73] [9] [(] [SIMBOLOS_ESPECIAIS]
-[74] [9] [06] [NUMERO]
-[75] [9] [)] [SIMBOLOS_ESPECIAIS]
-[76] [10] [end] [PALAVRA_CHAVE]
-[77] [11] [begin] [PALAVRA_CHAVE]
-[78] [12] [f04] [IDENTIFICADOR]
-[79] [12] [:=] [OPERADOR_DE_ATRIBUICAO]
-[80] [12] [f05] [IDENTIFICADOR]
-[81] [12] [(] [SIMBOLOS_ESPECIAIS]
-[82] [12] [05] [NUMERO]
-[83] [12] [)] [SIMBOLOS_ESPECIAIS]
-[84] [13] [end] [PALAVRA_CHAVE]
-[85] [14] [begin] [PALAVRA_CHAVE]
-[86] [15] [f03] [IDENTIFICADOR]
-[87] [15] [:=] [OPERADOR_DE_ATRIBUICAO]
-[88] [15] [f04] [IDENTIFICADOR]
-[89] [15] [(] [SIMBOLOS_ESPECIAIS]
-[90] [15] [04] [NUMERO]
-[91] [15] [)] [SIMBOLOS_ESPECIAIS]
-[92] [16] [end] [PALAVRA_CHAVE]
-[93] [17] [begin] [PALAVRA_CHAVE]
-[94] [18] [f02] [IDENTIFICADOR]
-[95] [18] [:=] [OPERADOR_DE_ATRIBUICAO]
-[96] [18] [f03] [IDENTIFICADOR]
-[97] [18] [(] [SIMBOLOS_ESPECIAIS]
-[98] [18] [03] [NUMERO]
-[99] [18] [)] [SIMBOLOS_ESPECIAIS]
-[100] [19] [end] [PALAVRA_CHAVE]
-[101] [20] [begin] [PALAVRA_CHAVE]
-[102] [21] [f01] [IDENTIFICADOR]
-[103] [21] [:=] [OPERADOR_DE_ATRIBUICAO]
-[104] [21] [f02] [IDENTIFICADOR]
-[105] [21] [(] [SIMBOLOS_ESPECIAIS]
-[106] [21] [02] [NUMERO]
-[107] [21] [)] [SIMBOLOS_ESPECIAIS]
-[108] [22] [end] [PALAVRA_CHAVE]
-[109] [23] [begin] [PALAVRA_CHAVE]
-[110] [24] [write] [IDENTIFICADOR]
-[111] [24] [(] [SIMBOLOS_ESPECIAIS]
-[112] [24] [f01] [IDENTIFICADOR]
-[113] [24] [(] [SIMBOLOS_ESPECIAIS]
-[114] [24] [0] [NUMERO]
-[115] [24] [)] [SIMBOLOS_ESPECIAIS]
-[116] [24] [)] [SIMBOLOS_ESPECIAIS]
-[117] [25] [end] [PALAVRA_CHAVE]
-[118] [25] [.] [PONTUACAO]
+[69] [8] [function] [PALAVRA_CHAVE]
+[70] [8] [f06] [IDENTIFICADOR]
+[71] [8] [(] [SIMBOLOS_ESPECIAIS]
+[72] [8] [p06] [IDENTIFICADOR]
+[73] [8] [:] [PONTUACAO]
+[74] [8] [integer] [IDENTIFICADOR]
+[75] [8] [)] [SIMBOLOS_ESPECIAIS]
+[76] [8] [:] [PONTUACAO]
+[77] [8] [integer] [IDENTIFICADOR]
+[78] [8] [;] [PONTUACAO]
+[79] [9] [function] [PALAVRA_CHAVE]
+[80] [9] [f07] [IDENTIFICADOR]
+[81] [9] [(] [SIMBOLOS_ESPECIAIS]
+[82] [9] [p07] [IDENTIFICADOR]
+[83] [9] [:] [PONTUACAO]
+[84] [9] [integer] [IDENTIFICADOR]
+[85] [9] [)] [SIMBOLOS_ESPECIAIS]
+[86] [9] [:] [PONTUACAO]
+[87] [9] [integer] [IDENTIFICADOR]
+[88] [9] [;] [PONTUACAO]
+[89] [10] [function] [PALAVRA_CHAVE]
+[90] [10] [f08] [IDENTIFICADOR]
+[91] [10] [(] [SIMBOLOS_ESPECIAIS]
+[92] [10] [p08] [IDENTIFICADOR]
+[93] [10] [:] [PONTUACAO]
+[94] [10] [integer] [IDENTIFICADOR]
+[95] [10] [)] [SIMBOLOS_ESPECIAIS]
+[96] [10] [:] [PONTUACAO]
+[97] [10] [integer] [IDENTIFICADOR]
+[98] [10] [;] [PONTUACAO]
+[99] [11] [function] [PALAVRA_CHAVE]
+[100] [11] [f09] [IDENTIFICADOR]
+[101] [11] [(] [SIMBOLOS_ESPECIAIS]
+[102] [11] [p09] [IDENTIFICADOR]
+[103] [11] [:] [PONTUACAO]
+[104] [11] [integer] [IDENTIFICADOR]
+[105] [11] [)] [SIMBOLOS_ESPECIAIS]
+[106] [11] [:] [PONTUACAO]
+[107] [11] [integer] [IDENTIFICADOR]
+[108] [11] [;] [PONTUACAO]
+[109] [12] [function] [PALAVRA_CHAVE]
+[110] [12] [f10] [IDENTIFICADOR]
+[111] [12] [(] [SIMBOLOS_ESPECIAIS]
+[112] [12] [p10] [IDENTIFICADOR]
+[113] [12] [:] [PONTUACAO]
+[114] [12] [integer] [IDENTIFICADOR]
+[115] [12] [)] [SIMBOLOS_ESPECIAIS]
+[116] [12] [:] [PONTUACAO]
+[117] [12] [integer] [IDENTIFICADOR]
+[118] [12] [;] [PONTUACAO]
+[119] [13] [begin] [PALAVRA_CHAVE]
+[120] [14] [f10] [IDENTIFICADOR]
+[121] [14] [:=] [OPERADOR_DE_ATRIBUICAO]
+[122] [14] [1] [NUMERO]
+[123] [15] [end] [PALAVRA_CHAVE]
+[124] [16] [begin] [PALAVRA_CHAVE]
+[125] [17] [f09] [IDENTIFICADOR]
+[126] [17] [:=] [OPERADOR_DE_ATRIBUICAO]
+[127] [17] [f10] [IDENTIFICADOR]
+[128] [17] [(] [SIMBOLOS_ESPECIAIS]
+[129] [17] [10] [NUMERO]
+[130] [17] [)] [SIMBOLOS_ESPECIAIS]
+[131] [18] [end] [PALAVRA_CHAVE]
+[132] [19] [begin] [PALAVRA_CHAVE]
+[133] [20] [f08] [IDENTIFICADOR]
+[134] [20] [:=] [OPERADOR_DE_ATRIBUICAO]
+[135] [20] [f08] [IDENTIFICADOR]
+[136] [20] [(] [SIMBOLOS_ESPECIAIS]
+[137] [20] [09] [NUMERO]
+[138] [20] [)] [SIMBOLOS_ESPECIAIS]
+[139] [21] [end] [PALAVRA_CHAVE]
+[140] [22] [begin] [PALAVRA_CHAVE]
+[141] [23] [f07] [IDENTIFICADOR]
+[142] [23] [:=] [OPERADOR_DE_ATRIBUICAO]
+[143] [23] [f07] [IDENTIFICADOR]
+[144] [23] [(] [SIMBOLOS_ESPECIAIS]
+[145] [23] [08] [NUMERO]
+[146] [23] [)] [SIMBOLOS_ESPECIAIS]
+[147] [24] [end] [PALAVRA_CHAVE]
+[148] [25] [begin] [PALAVRA_CHAVE]
+[149] [26] [f06] [IDENTIFICADOR]
+[150] [26] [:=] [OPERADOR_DE_ATRIBUICAO]
+[151] [26] [f07] [IDENTIFICADOR]
+[152] [26] [(] [SIMBOLOS_ESPECIAIS]
+[153] [26] [07] [NUMERO]
+[154] [26] [)] [SIMBOLOS_ESPECIAIS]
+[155] [27] [end] [PALAVRA_CHAVE]
+[156] [28] [begin] [PALAVRA_CHAVE]
+[157] [29] [f05] [IDENTIFICADOR]
+[158] [29] [:=] [OPERADOR_DE_ATRIBUICAO]
+[159] [29] [f06] [IDENTIFICADOR]
+[160] [29] [(] [SIMBOLOS_ESPECIAIS]
+[161] [29] [06] [NUMERO]
+[162] [29] [)] [SIMBOLOS_ESPECIAIS]
+[163] [30] [end] [PALAVRA_CHAVE]
+[164] [31] [begin] [PALAVRA_CHAVE]
+[165] [32] [f04] [IDENTIFICADOR]
+[166] [32] [:=] [OPERADOR_DE_ATRIBUICAO]
+[167] [32] [f05] [IDENTIFICADOR]
+[168] [32] [(] [SIMBOLOS_ESPECIAIS]
+[169] [32] [05] [NUMERO]
+[170] [32] [)] [SIMBOLOS_ESPECIAIS]
+[171] [33] [end] [PALAVRA_CHAVE]
+[172] [34] [begin] [PALAVRA_CHAVE]
+[173] [35] [f03] [IDENTIFICADOR]
+[174] [35] [:=] [OPERADOR_DE_ATRIBUICAO]
+[175] [35] [f04] [IDENTIFICADOR]
+[176] [35] [(] [SIMBOLOS_ESPECIAIS]
+[177] [35] [04] [NUMERO]
+[178] [35] [)] [SIMBOLOS_ESPECIAIS]
+[179] [36] [end] [PALAVRA_CHAVE]
+[180] [37] [begin] [PALAVRA_CHAVE]
+[181] [38] [f02] [IDENTIFICADOR]
+[182] [38] [:=] [OPERADOR_DE_ATRIBUICAO]
+[183] [38] [f03] [IDENTIFICADOR]
+[184] [38] [(] [SIMBOLOS_ESPECIAIS]
+[185] [38] [03] [NUMERO]
+[186] [38] [)] [SIMBOLOS_ESPECIAIS]
+[187] [39] [end] [PALAVRA_CHAVE]
+[188] [40] [begin] [PALAVRA_CHAVE]
+[189] [41] [f01] [IDENTIFICADOR]
+[190] [41] [:=] [OPERADOR_DE_ATRIBUICAO]
+[191] [41] [f02] [IDENTIFICADOR]
+[192] [41] [(] [SIMBOLOS_ESPECIAIS]
+[193] [41] [02] [NUMERO]
+[194] [41] [)] [SIMBOLOS_ESPECIAIS]
+[195] [42] [end] [PALAVRA_CHAVE]
+[196] [43] [begin] [PALAVRA_CHAVE]
+[197] [44] [write] [IDENTIFICADOR]
+[198] [44] [(] [SIMBOLOS_ESPECIAIS]
+[199] [44] [f01] [IDENTIFICADOR]
+[200] [44] [(] [SIMBOLOS_ESPECIAIS]
+[201] [44] [0] [NUMERO]
+[202] [44] [)] [SIMBOLOS_ESPECIAIS]
+[203] [44] [)] [SIMBOLOS_ESPECIAIS]
+[204] [45] [end] [PALAVRA_CHAVE]
+[205] [45] [.] [PONTUACAO]
 
 *****************
 ** Tabela Hash **
@@ -211,6 +298,56 @@ Retorno: integer
 Quantidade de Parametros: 1
 < /PROCEDIMENTO|FUNCAO >
 
+< PROCEDIMENTO|FUNCAO >
+Identificador: f06
+Categoria: FUNCAO
+Nivel Lexico: 6
+Tipo: 
+Deslocamento: -4
+Retorno: integer
+Quantidade de Parametros: 1
+< /PROCEDIMENTO|FUNCAO >
+
+< PROCEDIMENTO|FUNCAO >
+Identificador: f10
+Categoria: FUNCAO
+Nivel Lexico: 10
+Tipo: 
+Deslocamento: -4
+Retorno: integer
+Quantidade de Parametros: 1
+< /PROCEDIMENTO|FUNCAO >
+
+< PROCEDIMENTO|FUNCAO >
+Identificador: f07
+Categoria: FUNCAO
+Nivel Lexico: 7
+Tipo: 
+Deslocamento: -4
+Retorno: integer
+Quantidade de Parametros: 1
+< /PROCEDIMENTO|FUNCAO >
+
+< PROCEDIMENTO|FUNCAO >
+Identificador: f08
+Categoria: FUNCAO
+Nivel Lexico: 8
+Tipo: 
+Deslocamento: -4
+Retorno: integer
+Quantidade de Parametros: 1
+< /PROCEDIMENTO|FUNCAO >
+
+< PROCEDIMENTO|FUNCAO >
+Identificador: f09
+Categoria: FUNCAO
+Nivel Lexico: 9
+Tipo: 
+Deslocamento: -4
+Retorno: integer
+Quantidade de Parametros: 1
+< /PROCEDIMENTO|FUNCAO >
+
 < PARAMETROS_FORMAIS >
 Identificador: p01
 Categoria: PARAMETRO_FORMAL
@@ -256,10 +393,55 @@ Deslocamento: -3
 Passagem: 0
 < /PARAMETROS_FORMAIS >
 
+< PARAMETROS_FORMAIS >
+Identificador: p06
+Categoria: PARAMETRO_FORMAL
+Nivel Lexico: 6
+Tipo: integer
+Deslocamento: -3
+Passagem: 0
+< /PARAMETROS_FORMAIS >
+
+< PARAMETROS_FORMAIS >
+Identificador: p10
+Categoria: PARAMETRO_FORMAL
+Nivel Lexico: 10
+Tipo: integer
+Deslocamento: -3
+Passagem: 0
+< /PARAMETROS_FORMAIS >
+
+< PARAMETROS_FORMAIS >
+Identificador: p07
+Categoria: PARAMETRO_FORMAL
+Nivel Lexico: 7
+Tipo: integer
+Deslocamento: -3
+Passagem: 0
+< /PARAMETROS_FORMAIS >
+
+< PARAMETROS_FORMAIS >
+Identificador: p08
+Categoria: PARAMETRO_FORMAL
+Nivel Lexico: 8
+Tipo: integer
+Deslocamento: -3
+Passagem: 0
+< /PARAMETROS_FORMAIS >
+
+< PARAMETROS_FORMAIS >
+Identificador: p09
+Categoria: PARAMETRO_FORMAL
+Nivel Lexico: 9
+Tipo: integer
+Deslocamento: -3
+Passagem: 0
+< /PARAMETROS_FORMAIS >
+
 \_<PROGRAMA>
 	|\_program
 	|\_<IDENTIFICADOR>
-	|	|\_tc10_a
+	|	|\_tc10
 	|\_(
 	|\_)
 	|\_;
@@ -394,6 +576,231 @@ Passagem: 0
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<BLOCO>
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_ROTULOS>
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_SUB_ROTINAS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<DECLARACAO_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_function
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f06
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<SECAO_PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_IDENTIFICADORES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_p06
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_;
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<BLOCO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_ROTULOS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_SUB_ROTINAS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<DECLARACAO_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_function
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f07
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<SECAO_PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_IDENTIFICADORES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_p07
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_;
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<BLOCO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_ROTULOS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_SUB_ROTINAS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<DECLARACAO_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_function
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f08
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<SECAO_PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_IDENTIFICADORES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_p08
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_;
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<BLOCO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_ROTULOS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_SUB_ROTINAS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<DECLARACAO_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_function
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f09
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<SECAO_PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_IDENTIFICADORES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_p09
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_;
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<BLOCO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_ROTULOS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_SUB_ROTINAS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<DECLARACAO_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_function
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f10
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<SECAO_PARAMETROS_FORMAIS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_IDENTIFICADORES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_p10
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_integer
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_;
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<BLOCO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_ROTULOS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<PARTE_DECLARACOES_SUB_ROTINAS>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f10
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_1
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f09
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f10
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_10
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f08
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f08
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_09
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f07
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f07
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_08
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f06
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f07
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_07
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
@@ -407,3 +814,146 @@ Passagem: 0
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
 	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f06
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_06
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f04
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f05
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_05
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f03
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f04
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_04
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f02
+	|	|	|	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f03
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_03
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|	|	|	|\_end
+	|	|	|	|	|\_<COMANDO_COMPOSTO>
+	|	|	|	|	|	|\_begin
+	|	|	|	|	|	|\_<COMANDO>
+	|	|	|	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|	|	|	|\_<ATRIBUICAO>
+	|	|	|	|	|	|	|	|	|\_<VARIAVEL>
+	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|\_f01
+	|	|	|	|	|	|	|	|	|\_:=
+	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_f02
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_02
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|\_end
+	|	|\_<COMANDO_COMPOSTO>
+	|	|	|\_begin
+	|	|	|\_<COMANDO>
+	|	|	|	|\_<COMANDO_SEM_ROTULO>
+	|	|	|	|	|\_<COMANDO_ESCRITA>
+	|	|	|	|	|	|\_write
+	|	|	|	|	|	|\_(
+	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|\_<CHAMADA_FUNCAO>
+	|	|	|	|	|	|	|	|	|	|	|\_<IDENTIFICADOR>
+	|	|	|	|	|	|	|	|	|	|	|	|\_f01
+	|	|	|	|	|	|	|	|	|	|	|\_(
+	|	|	|	|	|	|	|	|	|	|	|\_<LISTA_EXPRESSOES>
+	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|\_<EXPRESSAO_SIMPLES>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<TERMO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<FATOR>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_<NUMERO>
+	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|\_0
+	|	|	|	|	|	|	|	|	|	|	|\_)
+	|	|	|	|	|	|\_)
+	|	|	|\_end
+	|\_.

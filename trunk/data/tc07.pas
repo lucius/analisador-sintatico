@@ -2,11 +2,11 @@ program tc07();
 var i,j,k:integer;
 procedure teste1;
 	procedure teste1_1;
-	begin
-		i:=i*1;
-		j:=j*1;
-		k:=k*1
-	end
+		begin
+			i:=i*1;
+			j:=j*1;
+			k:=k*1
+		end
 	begin
 		i:=1+1;
 		teste1_1;

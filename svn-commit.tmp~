@@ -1,0 +1,9 @@
+
+--This line, and those below, will be ignored--
+
+M    includes/AnalisadorSintatico.h
+M    src/AnalisadorSintatico.cpp
+A    src/TabelaHash.cpp
+M    data/log
+M    data/tc07.pas
+A    svn-commit.tmp~

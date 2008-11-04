@@ -257,13 +257,23 @@ AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned sh
 	std::vector<NoArvoreSintatica*>::iterator
 	_iteradorFilhos;
 
+	bool
+	_imprime;
+
 	arquivoLog.open( this->caminhoLog.c_str(), std::ifstream::app );
 
 	if ( arquivoLog.bad() ) throw ( new ErrosExecucao("O arquivo de log nao pode ser criado!! Sucesso;;") );
 
 	for( _countTabs = 0; _countTabs < _tabs; _countTabs++ )
 	{
-			buffer << "	|";
+		if( ! this->impressaoPipe[_countTabs] )
+		{
+			buffer << "  ";
+		}
+		else
+		{
+			buffer << " |";
+		}
 	}
 
 	if( _noImpressao != NULL )
@@ -276,6 +286,22 @@ AnalisadorSintatico::imprimeArvore( NoArvoreSintatica* _noImpressao, unsigned sh
 		{
 			for( _iteradorFilhos = _filhos.begin(); _iteradorFilhos != _filhos.end(); ++_iteradorFilhos )
 			{
+				_imprime = true;
+
+				if( *_iteradorFilhos == _filhos.back() )
+				{
+					_imprime = false;
+				}
+
+				if( this->impressaoPipe.size() >= (size_t) _tabs + 1 )
+				{
+					this->impressaoPipe[_tabs] = _imprime;
+				}
+				else
+				{
+					this->impressaoPipe.push_back( _imprime );
+				}
+
 				this->imprimeArvore( *_iteradorFilhos, _tabs+1 );
 			}
 		}
@@ -431,10 +457,10 @@ AnalisadorSintatico::parteDeclaracoesRotulos( )
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Esperado: numero apos 'label'" );
 		}
 	}
-//	else
-//	{
-//		return NULL;
-//	}
+	else
+	{
+		return NULL;
+	}
 
 	return _parteDeclaracoesRotulos;
 }
@@ -840,11 +866,11 @@ AnalisadorSintatico::parteDeclaracoesSubRotinas( )
 	NoArvoreSintatica*
 	_parteDeclaracoesSubRotinas = new NoArvoreSintatica( "<PARTE_DECLARACOES_SUB_ROTINAS>", this->nivelLexicoAtual, false );
 
-//	if( (this->iteradorSaidaAnalisadorLexico->second.token != "procedure") &&
-//		(this->iteradorSaidaAnalisadorLexico->second.token != "function") )
-//	{
-//		return NULL;
-//	}
+	if( (this->iteradorSaidaAnalisadorLexico->second.token != "procedure") &&
+		(this->iteradorSaidaAnalisadorLexico->second.token != "function") )
+	{
+		return NULL;
+	}
 
 	while( (this->iteradorSaidaAnalisadorLexico->second.token == "procedure") ||
 		   (this->iteradorSaidaAnalisadorLexico->second.token == "function") )
@@ -1591,6 +1617,12 @@ AnalisadorSintatico::fator( )
 	std::string
 	_classificacao;
 
+	unsigned int
+	_contador = 0;
+
+	bool
+	_encontrado = false;
+
 	if( this->iteradorSaidaAnalisadorLexico->second.token == "not")
 	{
 		_fator->insereFilho( this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual, true );
@@ -1621,29 +1653,45 @@ AnalisadorSintatico::fator( )
 	}
 	else if( this->iteradorSaidaAnalisadorLexico->second.classificacao == "IDENTIFICADOR" )
 	{
-		if( this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual)] != this->hash.end() )
+/*		'this->nivelLexicoAtual' nunca podera ser menor que 0 por definicao
+ *		para evitar o estouro para cima de unsigned int foi utilizada a comparação '!= 0'
+ */
+		for( _contador = 0; (this->nivelLexicoAtual-_contador) +1 != 0; ++_contador )
 		{
-			_classificacao = this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual)]->second->getConteudo();
+			if( this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual-_contador)] != this->hash.end() )
+			{
+				_classificacao = this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual-_contador)]->second->getConteudo();
 
-			if( (_classificacao == "variavel") || (_classificacao == "parametrosFormais") )
-			{
-				_fator->insereFilho( this->variavel( ) );
-			}
-			else if( _classificacao == "procedimento|funcao" )
-			{
-				_fator->insereFilho( this->chamadaFuncao() );
+				if( (_classificacao == "variavel") || (_classificacao == "parametrosFormais") )
+				{
+					_fator->insereFilho( this->variavel( ) );
+				}
+				else if( _classificacao == "procedimento|funcao" )
+				{
+					_fator->insereFilho( this->chamadaFuncao() );
+				}
+				_encontrado = true;
+
+				break;
 			}
 		}
-		else if( this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual+1)] != this->hash.end() )
-		{
-			_classificacao = this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual+1)]->second->getConteudo();
 
-			if( _classificacao == "procedimento|funcao" )
+		if( !_encontrado )
+		{
+			if( this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual+1)] != this->hash.end() )
 			{
-				_fator->insereFilho( this->chamadaFuncao() );
+
+				_classificacao = this->hash[std::pair<const std::string, const unsigned int>(this->iteradorSaidaAnalisadorLexico->second.token, this->nivelLexicoAtual+1)]->second->getConteudo();
+
+				if( _classificacao == "procedimento|funcao" )
+				{
+					_fator->insereFilho( this->chamadaFuncao() );
+				}
+				_encontrado = true;
 			}
 		}
-		else
+
+		if( !_encontrado )
 		{
 			LogErros::getInstancia().insereErro( this->iteradorSaidaAnalisadorLexico->second.linha, "Identificador '" + this->iteradorSaidaAnalisadorLexico->second.token + "' nao encontrado" );
 		}

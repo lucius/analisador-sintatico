@@ -19,6 +19,7 @@
 class AnalisadorSintatico
 {
 	public:
+
 		AnalisadorSintatico( std::map<int, StructToken> );
 
 		AnalisadorSintatico( std::map<int, StructToken>, const std::string );
@@ -26,7 +27,8 @@ class AnalisadorSintatico
 		virtual
 		~AnalisadorSintatico( );
 
-	private:
+	protected:
+
 		std::map<int, StructToken>
 		saidaAnalisadorLexico;
 
@@ -45,6 +47,8 @@ class AnalisadorSintatico
 		TabelaHash
 		hash;
 
+	private:
+
 		std::string
 		caminhoLog;
 
@@ -53,6 +57,9 @@ class AnalisadorSintatico
 
 		unsigned int
 		deslocamentoAtual;
+
+		std::vector<bool>
+		impressaoPipe;
 
 		void
 		iniciaAnalise( );
